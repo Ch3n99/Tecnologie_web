@@ -1,0 +1,91 @@
+body {
+	font-family: 'Arial', sans-serif;
+	color: rgb(18, 96, 122);
+}
+
+h2 {
+    line-height: 24px;	
+}
+
+.contatti {
+	position:fixed;
+	bottom:0px;
+	height:40px;
+	width:100%;
+	background:#CCCCCC;
+	z-index:999999;
+}
+
+.date-period {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+a#period-reset i.fa {
+	font-size: 20px;
+	margin-left: 10px;
+    margin-top: 2px;	
+}
+
+fieldset#period {
+    margin-top: 10px;	
+}
+
+a.link-danger {
+	color: #E74C3C;
+}
+
+a.action-link {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+a.action-link:hover {
+	text-decoration: none;	
+}
+
+#logo {
+	width: 40px;
+    background-color: #fff;
+    border-radius: 30%;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    margin-right: 10px;	
+}
+
+.error {
+	color: red;
+}
+
+.panel_toolbox {
+	min-width: 0px;
+}
+
+.alert.alert-create {
+	width: 48%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alert.alert-login {
+	text-shadow: none;
+}
+
+#costo {
+	color: red;
+}
+
+.dot-color {
+	width: 20px;
+	height: 20px;
+	background-color: #000;	
+    text-align: center;
+    margin-left: 10px;
+    border-radius: 10px;
+    margin: 0px;
+    float: right;    
+}
+
+.link {
+	text-decoration: underline;
+}
