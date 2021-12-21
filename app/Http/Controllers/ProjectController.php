@@ -15,11 +15,7 @@ use DB;
 
 class ProjectController extends Controller
 {
-    public function __construct() 
-	{
-		$this->middleware('auth');	
-	}
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -27,14 +23,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = DB::table('projects')
-        ->select('projects.id','projects.name','projects.description','projects.note','projects.date_start','projects.date_end_prev','projects.date_end_eff','clienti.ragsoc','projects.hour_cost')
-        ->join('clienti','clienti.id','=','projects.id_cliente')
-        ->where('projects.date_end_eff','=',null)
-        ->orderBy('projects.date_start','desc')
-        ->get();
-	
-		return view('project.index', compact('projects'));
+        //$progetti=Project::all();
+        $progetti=DB::table('projects') //ho preso i progetti ancora attivi con la ragione sociale del cliente associato al progetto
+                  ->select('projects.id','projects.name','projects.description','projects.note','projects.date_start','projects.date_end_prev','projects.date_end_eff','clienti.ragsoc','projects.hour_cost')
+                  ->join('clienti','projects.id_cliente','=','clienti.id')
+                  ->where('projects.date_end_eff','=',null)
+                  ->get();
+        return view('progetto.index' , compact('progetti')); //restituisco la view e passo variabile alla view tramite funzione compact
     }
 
     /**
@@ -44,8 +39,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $clienti = Cliente::all();
-        return view('project.create', compact('clienti'));
+        $clienti=Cliente::all();
+        return view('progetto.create',compact('clienti'));
     }
 
     /**
@@ -54,9 +49,9 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Request $request) //funzione per salvare i dati nel DB
 	{
-		$validatedData = $request->validate([
+		$validatedData = $request->validate([ //validazione dati
 			'name'          => 'required|min:3',
             'description'   => 'required|min:3',
             'note',
@@ -67,16 +62,11 @@ class ProjectController extends Controller
             'hour_cost'	    => 'required|min:1.00'
 		]);
 		
-        $date=Carbon::now();
 
 		$input = $request->all();
-        if(Auth::user()->ruolo=="Admin" && $input['date_end_eff']<=$date)
-        {
-		    Project::create($input);
-            return redirect('project');
-        }
-		else
-            return back();
+
+		Project::create($input); //creazione nuovo progetto
+        return redirect('progetto/create')->with('success', 'Nuovo progetto aggiunto con successo!');
 	}
 
     /**
@@ -87,10 +77,9 @@ class ProjectController extends Controller
      */
     public function edit(Int $id)
     {
-        $project = Project::find($id);
+        $project = Project::find($id); //progetto che voglio modificare
 		$clienti = Cliente::all();
-
-		return view('project.edit', compact('project', 'clienti'));
+        return view('progetto.edit', compact('project','clienti'));
     }
 
     /**
@@ -100,7 +89,7 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Project $project, Request $request)
+    public function update(Int $id, Request $request)
     {
         $validatedData = $request->validate([
 			'name'          => 'required|min:3',
@@ -112,19 +101,18 @@ class ProjectController extends Controller
 			'id_cliente'    => 'required',
             'hour_cost'	    => 'required|min:1.00'
 		]);
-		
-        $date=Carbon::now();
 
 		$input = $request->all();
-        if(Auth::user()->ruolo=="Admin" && $input['date_end_eff']<=$date)
-        {
-		    $project->update($input);
-            return redirect('project');
-        }
-		else
-            return back();
+		$project=Project::find($id);
+        $project->update($input);
+        return redirect('progetto');
+
     }
 
+    public function show()
+    {
+
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -134,12 +122,26 @@ class ProjectController extends Controller
     public function destroy(Int $id)
     {
         $project = Project::find($id);
-		if(Auth::user()->ruolo=="Admin")
-            $project->delete();
+        $project->delete();
 		
-		return redirect('project');
+		return redirect('progetto');
     }
     
+    public function viewprog(Int $id){
+
+        $project = Project::find($id);
+
+        $ass=DB::table('assegnazioni')
+            ->select('assegnazioni.id','users.surname','users.name')
+            ->join('projects','projects.id','=','assegnazioni.id_progetto')
+            ->join('users','users.id','=','assegnazioni.id_user')
+            ->where('projects.id','=',$id)
+            ->get();
+
+        return view('progetto.prog',compact('project','ass'));
+
+    }
+
     public function query1(Request $request, Int $id)
     {
         $project = Project::find($id);

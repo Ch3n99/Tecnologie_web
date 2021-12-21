@@ -93,7 +93,7 @@
 		                                <option selected="selected" value="{{ $cliente->id }}">{{ $cliente->ragsoc }}</option>
 		                            @else
 										<option value="{{ $cliente->id }}">{{ $cliente->ragsoc }}</option>
-									@endif
+								@endif
 								@endforeach
                             </select>
                         </div>

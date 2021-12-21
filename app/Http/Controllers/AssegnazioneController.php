@@ -29,35 +29,13 @@ class AssegnazioneController extends Controller
      * @param  \App\Assegnazione  $assegnazione
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Int $id)
     {
-        $users = DB::table('users')
-            ->where('users.ruolo','=','Semplice')
-            ->get();
-        $projects = DB::table('projects')
-            ->where('projects.date_end_eff','=',null)
-            ->get();
-        return view('assegnazione.create', compact('users','projects'));
+        $project=Project::find($id);
+        $users=User::all();
+        return view('assegnazione.create',compact('project','users'));
     }
 
-    public function createv1(Int $id)
-    {
-        $user=User::find($id);
-        $projects = DB::table('projects')
-            ->where('projects.date_end_eff','=',null)
-            ->get();
-        return view('assegnazione.createv1', compact('user','projects'));
-    }
-
-    public function createv2(Int $id)
-    {
-        $users = DB::table('users')
-            ->where('users.ruolo','=','Semplice')
-            ->get();
-        $project = Project::find($id);
-        return view('assegnazione.createv2', compact('users','project'));
-    }
-    
     /**
      * Store a newly created resource in storage.
      *
@@ -66,22 +44,13 @@ class AssegnazioneController extends Controller
      */
     public function store(Request $request)
     {
-        $projects = DB::table('projects')
-        ->select('projects.id','projects.name','projects.description','projects.note','projects.date_start','projects.date_end_prev','projects.date_end_eff','clienti.ragsoc','projects.hour_cost')
-        ->join('clienti','clienti.id','=','projects.id_cliente')
-        ->where('projects.date_end_eff','=',null)
-        ->orderBy('projects.date_start','desc')
-        ->get();
 
         $validatedData = $request->validate([
             'id_user' 				=> 'required',
             'id_progetto' 			=> 'required'
 		]);
-
+        $assegnazioni=Assegnazione::all();
 		$input = $request->all();
-        $user = User::find($input['id_user']);
-        $project = Project::find($input['id_progetto']);
-        $assegnazioni = Assegnazione::all();
         $test = 1;
         foreach($assegnazioni as $a){
             if($input['id_user']==$a->id_user && $input['id_progetto']==$a->id_progetto)
@@ -90,14 +59,13 @@ class AssegnazioneController extends Controller
                 break;
             }              
         }
-        
-        if(Auth::user()->ruolo=="Admin" && $user->ruolo=="Semplice" && $project->date_end_eff==NULL && $test==1)
+        if($test==1)
         {
-		    $newAsseg = Assegnazione::create($input);
+            $newAsseg = Assegnazione::create($input);
             return back()->with('success', 'Nuova assegnazione aggiunta con successo!');
         }
-        else
-            return back()->with('error','Errore assegnazione');
+        else    
+            return back()->with('error', 'Non posso aggiungere questa assegnazione');
     }
 
     /**
