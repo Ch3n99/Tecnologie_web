@@ -55,7 +55,7 @@
 								<td>{{ $cliente['surname'] }}</td>
 								<td>{{ $cliente['email'] }}</td>
 								<td>
-								<a href="{{ URL::action('ClienteController@query2', $cliente->id) }}" class="link">Visualizza</a>	
+								<a href="/" class="link">Visualizza</a>	
 								</td>	
 								<td>
 									<a href="{{ URL::action('ClienteController@edit', $cliente['id']) }}" class="action-link fa fa-pencil"></a>																									

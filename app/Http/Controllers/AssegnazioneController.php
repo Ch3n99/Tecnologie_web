@@ -29,11 +29,16 @@ class AssegnazioneController extends Controller
      * @param  \App\Assegnazione  $assegnazione
      * @return \Illuminate\Http\Response
      */
-    public function create(Int $id)
+    public function create()
+    {
+
+    }
+
+    public function createass(Int $id)
     {
         $project=Project::find($id);
         $users=User::all();
-        return view('assegnazione.create',compact('project','users'));
+        return view('assegnazione.create', compact('project','users'));
     }
 
     /**
@@ -111,8 +116,7 @@ class AssegnazioneController extends Controller
     public function destroy(Int $id)
     {
         $assegnazione = Assegnazione::find($id);
-        if(Auth::user()->ruolo=="Admin")
-		    $assegnazione->delete();
+		$assegnazione->delete();
 		
 		return back();
     }

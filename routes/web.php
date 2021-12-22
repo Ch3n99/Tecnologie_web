@@ -25,13 +25,9 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/', 'ProjectController@index');
 // La rotta home ha anche un "nomiglnolo" per essare chiamata attraverso il metodo route('home')
 Route::get('/home', 'ProjectController@index')->name('home');
-
-Route::get('assegnazione/{id}/index', 'ProjectController@query1');
-Route::get('assegnazione/{id}/index2', 'ClienteController@query2');
 Route::get('progetto/{id}/prog', 'ProjectController@viewprog');
 Route::get('user/{id}/index2', 'UserController@query3');
-Route::get('assegnazione/{id}/create', 'AssegnazioneController@create');
-Route::get('user/{id}/index2', 'UserController@query3');
+Route::get('assegnazione/{id}/create', 'AssegnazioneController@createass');
 Route::resource('diario', 'DiarioController', ['except' => ['destroy']]);
 Route::resource('user', 'UserController', ['except' => ['destroy']]);
 Route::resource('cliente', 'ClienteController', ['except' => ['destroy']]);

@@ -46,10 +46,16 @@
                                     <li class="">
 										<a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="">
+										<?php if (Auth::user()->ruolo=="Admin"): ?>	
                                             <li><a href="{{ URL::action('ProjectController@index') }}">Gestione Progetti</a></li>
 											<li><a href="{{ URL::action('ClienteController@index') }}">Gestione Clienti</a></li>
                                             <li><a href="{{ URL::action('UserController@index') }}">Gestione Utenti</a></li>
 											<li><a href="{{ URL::action('AssegnazioneController@create') }}">Nuova assegnazione</a></li>
+										<?php else: ?>
+											<li><a href="{{ URL::action('UserController@query3',Auth::user()->id) }}">Riepilogo personale</a></li>
+											<li><a href="{{ URL::action('DiarioController@index',Auth::user()->id) }}">Diario</a></li>
+											<li><a href="{{ URL::action('DiarioController@create',Auth::user()->id) }}">Aggiungi scheda ore</a></li>
+										<?php endif; ?>
                                         </ul>
                                     </li>
 								</ul>                                                
@@ -71,7 +77,7 @@
 	                        </div>
 	                        <ul class="nav navbar-nav navbar-right">
                             	<li class="">
-                                	<a href="javascript:void(0);" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ciao<span class=" fa fa-angle-down"></span></a>
+                                	<a href="javascript:void(0);" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Ciao <?php echo Auth::user()->name; ?> <span class=" fa fa-angle-down"></span></a>
 									<ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
                                     	<li><a href="{{ URL::action('Auth\LoginController@logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
 									</ul>

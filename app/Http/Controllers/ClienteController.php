@@ -110,7 +110,7 @@ class ClienteController extends Controller
 		return redirect("cliente");
     }
 
-    public function query2(Request $request, Int $id)
+    /*public function query2(Request $request, Int $id)
     {
         $projects=DB::table('projects')
             ->select('projects.id','projects.id_cliente','projects.name','projects.description','projects.date_start','projects.date_end_prev','projects.date_end_eff','projects.hour_cost')
@@ -185,5 +185,5 @@ class ClienteController extends Controller
             }
         }				                	
 		return $prog_ore;
-	}
+	}*/
 }
