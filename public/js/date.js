@@ -24,7 +24,6 @@ $(document).ready(function () {
         if (curr_date < 10) {
             curr_date = "0"+curr_date;
         }
-
         var begin 	= curr_year+"-"+curr_month+"-01";
         if(curr_month==04 || curr_month==06 || curr_month==09 || curr_month==11)
             var end 	= curr_year+"-"+curr_month+"-30";

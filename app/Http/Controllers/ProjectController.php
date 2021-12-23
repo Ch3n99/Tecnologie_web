@@ -130,47 +130,15 @@ class ProjectController extends Controller
 		return redirect('progetto');
     }
     
-    public function viewprog(Int $id){
+    public function viewprog(Request $request, Int $id){
 
-        $project = Project::find($id);
-
-        $ass=DB::table('assegnazioni')
-            ->select('assegnazioni.id','users.surname','users.name')
-            ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->join('users','users.id','=','assegnazioni.id_user')
-            ->where('projects.id','=',$id)
-            ->get();
-
-        return view('progetto.prog',compact('project','ass'));
-
-    }
-
-    public function query1(Request $request, Int $id)
-    {
-        $project = Project::find($id);
-        $projects = Project::all();
         $users=User::all();
+        $project = Project::find($id);
 
-        $ass=DB::table('assegnazioni')
-            ->select('assegnazioni.id','users.surname','users.name')
-            ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->join('users','users.id','=','assegnazioni.id_user')
-            ->where('projects.id','=',$id)
-            ->get();
+        $begin 	= new Carbon('first day of this month');
+		$end 	= new Carbon('last day of this month');
 
-        // Imposto due date di default: Primo e ultimo gg del mese
-        if($project->date_end_eff==NULL)
-        {
-            $begin 	= new Carbon('first day of this month');
-		    $end 	= new Carbon('last day of this month');
-        }
-		else
-        {
-            $begin 	= new Carbon($project->date_start);
-		    $end 	= new Carbon($project->date_end_eff);
-        }
-
-		// Controllo se sono state passate delle date e le prelevo se sono presenti
+        // Controllo se sono state passate delle date e le prelevo se sono presenti
 		$input = $request->all();
 
 		if (isset($input['date-period-begin'])) {
@@ -181,6 +149,13 @@ class ProjectController extends Controller
 			$end = Carbon::createFromFormat('Y-m-d', $input['date-period-end']);
 		}
 
+        $ass=DB::table('assegnazioni')
+            ->select('assegnazioni.id','users.surname','users.name')
+            ->join('projects','projects.id','=','assegnazioni.id_progetto')
+            ->join('users','users.id','=','assegnazioni.id_user')
+            ->where('projects.id','=',$id)
+            ->get();
+        
         $d=DB::table('diari')
             ->select(DB::raw('SUM(num_ore) as tot_ore'),'data','id_asseg','assegnazioni.id_user','assegnazioni.id_progetto')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
@@ -188,35 +163,36 @@ class ProjectController extends Controller
             ->groupBy('id_asseg')
             ->get();
         
-        // Array che contiene la spesa per ogni utente + altre informazioni
+        // ore_prog è array che contiene la spesa per ogni utente
 		$ore_prog = $this->oreProg($users,$id,$d);
+        // ore_tot contiene il totale delle ore di lavoro
         $ore_tot = $this->oreTot($users,$id,$d);
-        $costo_tot = $ore_tot * $project->hour_cost;
+        
+        return view('progetto.prog',compact('project','ass','ore_prog','ore_tot','begin','end'));
 
-        return view('assegnazione.index',compact('ass','projects','project','id','ore_prog','ore_tot','begin','end','costo_tot'));
-                            
     }
 
-    private function oreProg($users,$id,$d) 
+    private function oreProg($users,$id,$d) //restituisce array contentente ore di lavoro per ciascun utente 
 	{
-		$tot_ore = [];
+		$tot_ore = []; //dichiaro array vuoto
         foreach($users as $user)  {
             $prog_ore = 0;
 	        foreach ($d as $diario) {
-                if($diario->id_progetto==$id && $diario->id_user == $user->id)
+                if($diario->id_progetto==$id && $diario->id_user == $user->id) //controllo se progetto è quello giusto e se utente è quello che stiamo esaminando
                     $prog_ore += $diario->tot_ore;
             }
-            if($prog_ore!=0) {
+            if($prog_ore>0)
+            {
                 $new = ["cognome_utente" => $user->surname,
                 "nome_utente" => $user->name,
-				"tot" => $prog_ore];
-			    array_push($tot_ore, $new);
-            }
+			    "tot" => $prog_ore];
+                array_push($tot_ore, $new); //inserisco elemento appena trovato nell'array
+            }      			
         }				                	
-		return $tot_ore;
+		return $tot_ore; //restituisco l'array
 	}
 
-    private function oreTot($users,$id,$d) 
+    private function oreTot($users,$id,$d) //restituisce totale ore di lavoro
 	{
         $prog_ore = 0;
         foreach($users as $user)  {

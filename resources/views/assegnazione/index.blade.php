@@ -73,8 +73,8 @@
 								<form id="form-period" method="get" action="{{ URL::action('ProjectController@query1', $id) }}" class="form-horizontal form-label-left">
 	                                <div class="input-prepend input-group">
                                     	<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-										<input type="text" style="width: 150px" name="date-period-begin" id="date-period-begin" class="form-control date-period" value="{{ $begin->toDateString() }}">
-										<input type="text" style="width: 150px" name="date-period-end" id="date-period-end" class="form-control date-period" value="{{ $end->toDateString() }}">
+										<input type="text" style="width: 150px" name="date-period-begin" id="date-period-begin" class="form-control date-period">
+										<input type="text" style="width: 150px" name="date-period-end" id="date-period-end" class="form-control date-period">
 										<a href="javascript:void(0);" id="period-reset" style="margin-left: 5px; margin-right: 20px; font-size: 18px;"><i class="fa fa-refresh"></i></a>											
 										<button type="submit" style="margin-left: 2px; margin-bottom: 0px;" id="submit-period" class="btn btn-primary">Imposta</button>
 	                                </div>
