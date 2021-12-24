@@ -42,8 +42,7 @@
 	                        <th>Nome</th>
 	                        <th>Cognome</th>
 	                        <th>Email</th>	                       
-							<th>Dettagli aggiuntivi</th>
-							<th>Azioni</th>
+							<th></th>
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -54,9 +53,6 @@
 								<td>{{ $cliente['name'] }}</td>
 								<td>{{ $cliente['surname'] }}</td>
 								<td>{{ $cliente['email'] }}</td>
-								<td>
-								<a href="/" class="link">Visualizza</a>	
-								</td>	
 								<td>
 									<a href="{{ URL::action('ClienteController@edit', $cliente['id']) }}" class="action-link fa fa-pencil"></a>																									
 									<a href="{{ URL::action('ClienteController@destroy', $cliente['id']) }}" onClick="return confirm('Sei sicuro di voler cancellare questa riga?')" class="action-link link-danger fa fa-close"></a>

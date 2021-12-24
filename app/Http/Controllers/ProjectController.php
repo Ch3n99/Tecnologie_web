@@ -32,7 +32,7 @@ class ProjectController extends Controller
                   ->join('clienti','projects.id_cliente','=','clienti.id')
                   ->where('projects.date_end_eff','=',null)
                   ->get();
-        return view('progetto.index' , compact('progetti')); //restituisco la view e passo variabile alla view tramite funzione compact
+        return view('project.index' , compact('progetti')); //restituisco la view e passo variabile alla view tramite funzione compact
     }
 
     /**
@@ -43,7 +43,7 @@ class ProjectController extends Controller
     public function create()
     {
         $clienti=Cliente::all();
-        return view('progetto.create',compact('clienti'));
+        return view('project.create',compact('clienti'));
     }
 
     /**
@@ -69,7 +69,7 @@ class ProjectController extends Controller
 		$input = $request->all();
 
 		Project::create($input); //creazione nuovo progetto
-        return redirect('progetto/create')->with('success', 'Nuovo progetto aggiunto con successo!');
+        return redirect('project/create')->with('success', 'Nuovo progetto aggiunto con successo!');
 	}
 
     /**
@@ -82,7 +82,7 @@ class ProjectController extends Controller
     {
         $project = Project::find($id); //progetto che voglio modificare
 		$clienti = Cliente::all();
-        return view('progetto.edit', compact('project','clienti'));
+        return view('project.edit', compact('project','clienti'));
     }
 
     /**
@@ -108,7 +108,7 @@ class ProjectController extends Controller
 		$input = $request->all();
 		$project=Project::find($id);
         $project->update($input);
-        return redirect('progetto');
+        return redirect('project');
 
     }
 
@@ -127,7 +127,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $project->delete();
 		
-		return redirect('progetto');
+		return redirect('project');
     }
     
     public function viewprog(Request $request, Int $id){
@@ -168,7 +168,7 @@ class ProjectController extends Controller
         // ore_tot contiene il totale delle ore di lavoro
         $ore_tot = $this->oreTot($users,$id,$d);
         
-        return view('progetto.prog',compact('project','ass','ore_prog','ore_tot','begin','end'));
+        return view('project.prog',compact('project','ass','ore_prog','ore_tot','begin','end'));
 
     }
 

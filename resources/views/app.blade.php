@@ -47,23 +47,14 @@
 										<a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="">
 										<?php if (Auth::user()->ruolo=="Admin"): ?>	
-                                            <li><a href="{{ URL::action('ProjectController@index') }}">Gestione Progetti</a></li>
-											<li><a href="{{ URL::action('ClienteController@index') }}">Gestione Clienti</a></li>
-                                            <li><a href="{{ URL::action('UserController@index') }}">Gestione Utenti</a></li>
-											<li><a href="{{ URL::action('AssegnazioneController@create') }}">Nuova assegnazione</a></li>
-										<?php else: ?>
-											<li><a href="{{ URL::action('UserController@query3',Auth::user()->id) }}">Riepilogo personale</a></li>
-											<li><a href="{{ URL::action('DiarioController@index',Auth::user()->id) }}">Diario</a></li>
-											<li><a href="{{ URL::action('DiarioController@create',Auth::user()->id) }}">Aggiungi scheda ore</a></li>
+                                            <li><a href="{{ URL::action('ProjectController@index') }}">Progetti</a></li>
+											<li><a href="{{ URL::action('ClienteController@index') }}">Clienti</a></li>
+                                            <li><a href="{{ URL::action('UserController@index') }}">Utenti</a></li>
 										<?php endif; ?>
                                         </ul>
                                     </li>
 								</ul>                                                
 							</div>							           		
-							<div class="contatti" align="center">
-							Telefono: 0532212436 --- Mail: info360@gmail.com</br>
-							Via Bologna, 150  --- Ferrara, 44122</br>							
-						</div>  
 						</div>						        		
                     </div>  
 					          		
