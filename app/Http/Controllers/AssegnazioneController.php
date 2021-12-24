@@ -49,7 +49,6 @@ class AssegnazioneController extends Controller
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'id_user' 				=> 'required',
             'id_progetto' 			=> 'required'
@@ -115,7 +114,7 @@ class AssegnazioneController extends Controller
      */
     public function destroy(Int $id)
     {
-        
+        //
     }
 
     

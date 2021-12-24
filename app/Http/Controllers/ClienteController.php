@@ -53,8 +53,7 @@ class ClienteController extends Controller
 		]);
 
 		$input = $request->all();
-        if(Auth::user()->ruolo=="Admin")
-		    $newCliente = Cliente::create($input);
+		$newCliente = Cliente::create($input);
 
 		return redirect('cliente'); 
     }
@@ -89,8 +88,7 @@ class ClienteController extends Controller
 		]);
 
 		$input = $request->all();
-        if(Auth::user()->ruolo=="Admin")
-		    $cliente->update($input);
+		$cliente->update($input);
 
 		return redirect('cliente'); 
     }
@@ -104,8 +102,7 @@ class ClienteController extends Controller
     public function destroy(Int $id)
     {
         $cliente = Cliente::find($id);
-        if(Auth::user()->ruolo=="Admin")
-		    $cliente->delete();
+		$cliente->delete();
 		
 		return redirect("cliente");
     }

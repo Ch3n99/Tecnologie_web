@@ -20,7 +20,7 @@ class DiarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request) //Int $id
     {
         // Imposto due date di default: Primo e ultimo gg del mese
 		$month 	= Carbon::now()->month;
@@ -41,13 +41,13 @@ class DiarioController extends Controller
             ->select('diari.id','diari.data','projects.name','diari.num_ore','diari.note')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->where('assegnazioni.id_user','=',Auth::user()->id)
+            ->where('assegnazioni.id_user','=',Auth::user()->id) //$id
             ->whereMonth('diari.data','=',$month)
             ->whereYear('diari.data','=',$year)
             ->orderBy('diari.data','desc')
             ->get();
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::user()->id); //$id
         $tot = $this->getTot($diari);
         return view('diario.index',compact('user','diari','month','year','tot'));
     }
@@ -83,28 +83,9 @@ class DiarioController extends Controller
             'id_asseg'      => 'required'
 		]);
 
-        $input = $request->all();
-        $id = $input['id_asseg'];
-        $asseg=DB::table('assegnazioni')
-            ->select('assegnazioni.id','assegnazioni.id_progetto','projects.date_start','projects.date_end_eff')
-            ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->where('assegnazioni.id','=', $id)
-            ->get();
-
-        foreach($asseg as $a)
-        {
-            $start=$a->date_start;
-            $end=$a->date_end_eff;
-        }
-
-        $ass=Assegnazione::find($id);
-        if($ass->id_user==Auth::user()->id && Auth::user()->ruolo=="Semplice" && ($input['data']<=$end || $end==NULL) && $input['data'] >=$start)
-        {
-		    Diario::create($input);
-		    return redirect('diario');
-        }
-        else
-            return redirect('diario/create')->with('error','Errore inserimento scheda ore');
+        $input = $request->all();  
+		Diario::create($input);
+		return redirect('diario');
     }
 
     /**
@@ -127,33 +108,14 @@ class DiarioController extends Controller
     public function edit(Int $id)
     {
         $d=Diario::find($id);
-        
-        $projects = DB::table('projects')
-        ->select('projects.id','projects.name','projects.description','projects.note','projects.date_start','projects.date_end_prev','projects.date_end_eff','clienti.ragsoc','projects.hour_cost')
-        ->join('clienti','clienti.id','=','projects.id_cliente')
-        ->where('projects.date_end_eff','=',null)
-        ->orderBy('projects.date_start','desc')
-        ->get();
-	
-        $diari=DB::table('diari')
-            ->select('diari.id','assegnazioni.id_user')
-            ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
-            ->where('diari.id','=',$id)
-            ->get();
-
-        foreach($diari as $diario)
-            $id=$diario->id_user;
 
 		$asseg=DB::table('assegnazioni')
             ->select('assegnazioni.id','assegnazioni.id_progetto','projects.name','assegnazioni.id_user')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->where('assegnazioni.id_user','=', Auth::user()->id)
+            ->where('assegnazioni.id_user','=', Auth::user()->id) //$id
             ->get();
 
-        if($id==Auth::user()->id)
-		    return view('diario.edit', compact('id','diario', 'asseg','d'));
-        else
-		    return view('project.index', compact('projects'));
+		return view('diario.edit', compact('id', 'asseg','d'));
     }
 
     /**
@@ -173,27 +135,8 @@ class DiarioController extends Controller
 		]);
 		
 		$input = $request->all();
-        $id = $input['id_asseg'];
-        $asseg=DB::table('assegnazioni')
-            ->select('assegnazioni.id','assegnazioni.id_progetto','projects.date_start','projects.date_end_eff')
-            ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->where('assegnazioni.id','=', $id)
-            ->get();
-
-        foreach($asseg as $a)
-        {
-            $start=$a->date_start;
-            $end=$a->date_end_eff;
-        }
-
-        $ass=Assegnazione::find($id);
-        if($ass->id_user==Auth::user()->id && Auth::user()->ruolo=="Semplice" && ($input['data']<=$end || $end==NULL) && $input['data'] >=$start)
-        {
-		    $diario->update($input);
-		    return redirect('diario');
-        }
-        else
-            return back();
+		$diario->update($input);
+		return redirect('diario');
     }
 
     /**
@@ -205,10 +148,7 @@ class DiarioController extends Controller
     public function destroy(Int $id)
     {
         $diario = Diario::find($id);
-        $ass = Assegnazione::find($diario->id_asseg);
-        if($ass->id_user==Auth::user()->id)
-		    $diario->delete();
-		
+		$diario->delete();
 		return back();
     }
 

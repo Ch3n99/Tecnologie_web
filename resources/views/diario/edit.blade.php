@@ -38,13 +38,6 @@
 		                </div>
 					@endif
 
-					@if (session('success'))
-						<div class="alert alert-create alert-success alert-dismissible fade in" role="alert">
-		                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-							<p>{{ session('success') }}</p>
-		                </div>
-					@endif
-
                     <div class="form-group">
 	                    <label for="data" class="control-label col-md-3 col-sm-3 col-xs-12">Data<span class="required">*</span>
 	                    </label>
