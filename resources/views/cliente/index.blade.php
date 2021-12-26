@@ -41,21 +41,23 @@
                             <th>Ragione sociale</th>                         
 	                        <th>Nome</th>
 	                        <th>Cognome</th>
-	                        <th>Email</th>	                       
+	                        <th>Email</th>
+							<th>Ulteriori dettagli</th>                      
 							<th></th>
 	                    </tr>
 	                </thead>
 	                <tbody>
 	                
-						@foreach($clienti as $cliente)
+						@foreach($clienti as $i)
 							<tr class="row-category">
-                                <td>{{ $cliente['ragsoc'] }}</td>
-								<td>{{ $cliente['name'] }}</td>
-								<td>{{ $cliente['surname'] }}</td>
-								<td>{{ $cliente['email'] }}</td>
+                                <td>{{ $i['ragsoc'] }}</td>
+								<td>{{ $i['name'] }}</td>
+								<td>{{ $i['surname'] }}</td>
+								<td>{{ $i['email'] }}</td>
+								<td><a href="{{ URL::action('ClienteController@viewcliente', $i->id) }}" class="link">Visualizza</a>	
 								<td>
-									<a href="{{ URL::action('ClienteController@edit', $cliente['id']) }}" class="action-link fa fa-pencil"></a>																									
-									<a href="{{ URL::action('ClienteController@destroy', $cliente['id']) }}" onClick="return confirm('Sei sicuro di voler cancellare questa riga?')" class="action-link link-danger fa fa-close"></a>
+									<a href="{{ URL::action('ClienteController@edit', $i['id']) }}" class="action-link fa fa-pencil"></a>																									
+									<a href="{{ URL::action('ClienteController@destroy', $i['id']) }}" onClick="return confirm('Sei sicuro di voler cancellare questa riga?')" class="action-link link-danger fa fa-close"></a>
 								</td>
 							</tr>
 						@endforeach

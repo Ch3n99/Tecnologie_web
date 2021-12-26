@@ -107,18 +107,12 @@ class ClienteController extends Controller
 		return redirect("cliente");
     }
 
-    /*public function query2(Request $request, Int $id)
+    public function viewcliente(Request $request, Int $id)
     {
-        $projects=DB::table('projects')
-            ->select('projects.id','projects.id_cliente','projects.name','projects.description','projects.date_start','projects.date_end_prev','projects.date_end_eff','projects.hour_cost')
-            ->join('clienti','clienti.id','=','projects.id_cliente')
-            ->where('clienti.id','=',$id)
-            ->orderBy('projects.date_end_eff','asc')
+        $projects=DB::table('projects') //restituisce i progetti relativi a un determinato cliente
+            ->where('projects.id_cliente','=',$id)
             ->get();
-
-        $cliente = Cliente::find($id);
-        $users=User::all();
-
+        
         // Imposto due date di default: Primo e ultimo gg del mese
 		$begin 	= new Carbon('first day of this month');
 		$end 	= new Carbon('last day of this month');
@@ -133,37 +127,40 @@ class ClienteController extends Controller
 		if (isset($input['date-period-end'])) {
 			$end = Carbon::createFromFormat('Y-m-d', $input['date-period-end']);
 		}
-                  
-        $d=DB::table('diari')
+
+        $d=DB::table('diari') //ore di lavoro nel periodo selezionato per ciascuna assegnazione
             ->select(DB::raw('SUM(num_ore) as tot_ore'),'data','id_asseg','assegnazioni.id_user','assegnazioni.id_progetto')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->whereBetween('data', [$begin, $end])
             ->groupBy('id_asseg')
             ->get();
+        
+        $cliente=Cliente::find($id);
+        $users=User::all();
 
-        // Array che contiene la spesa per ogni utente + altre informazioni
+        // ore_cl è array che contiene le ore di lavoro verso un cliente di ogni utente
 		$ore_cl = $this->oreCl($users,$projects,$d);
+        // ore_tot contiene il totale delle ore di lavoro
         $ore_tot = $this->oreTot($users,$projects,$d);
 
-        return view('assegnazione.index2',compact('projects','cliente','id','ore_cl','ore_tot','begin','end'));
-                            
+        return view('cliente.cl',compact('projects','begin','end','ore_cl','ore_tot','cliente'));
     }
 
     private function oreCl($users,$projects,$d) 
 	{
 		$tot_ore = [];
         foreach($users as $user){
-            $prog_ore = 0;
+            $cl_ore = 0;
             foreach($projects as $project)  {
 	            foreach ($d as $diario) {
                     if($diario->id_progetto==$project->id && $diario->id_user == $user->id)
-                        $prog_ore += $diario->tot_ore;
+                        $cl_ore += $diario->tot_ore;
                 }  
             }
-            if($prog_ore!=0) {
+            if($cl_ore>0) {
                 $new = ["cognome_utente" => $user->surname,
                 "nome_utente" => $user->name,
-                "tot" => $prog_ore];
+                "tot" => $cl_ore];
                 array_push($tot_ore, $new);
             }
         }				                	
@@ -172,15 +169,15 @@ class ClienteController extends Controller
 
     private function oreTot($users,$projects,$d) 
 	{
-        $prog_ore=0;
+        $cl_ore=0;
         foreach($users as $user){
             foreach($projects as $project)  {
 	            foreach ($d as $diario) {
                     if($diario->id_progetto==$project->id && $diario->id_user == $user->id)
-                        $prog_ore += $diario->tot_ore;
+                        $cl_ore += $diario->tot_ore;
                 }  
             }
         }				                	
-		return $prog_ore;
-	}*/
+		return $cl_ore;
+	}
 }

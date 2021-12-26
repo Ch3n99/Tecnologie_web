@@ -149,21 +149,21 @@ class ProjectController extends Controller
 			$end = Carbon::createFromFormat('Y-m-d', $input['date-period-end']);
 		}
 
-        $ass=DB::table('assegnazioni')
+        $ass=DB::table('assegnazioni') //numero assegnazioni per ciascun progetto
             ->select('assegnazioni.id','users.surname','users.name')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
             ->join('users','users.id','=','assegnazioni.id_user')
             ->where('projects.id','=',$id)
             ->get();
         
-        $d=DB::table('diari')
+        $d=DB::table('diari') //ore di lavoro nel periodo selezionato per ciascuna assegnazione
             ->select(DB::raw('SUM(num_ore) as tot_ore'),'data','id_asseg','assegnazioni.id_user','assegnazioni.id_progetto')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->whereBetween('data', [$begin, $end])
             ->groupBy('id_asseg')
             ->get();
         
-        // ore_prog è array che contiene la spesa per ogni utente
+        // ore_prog è array che contiene le ore di lavoro sul progetto di ogni utente
 		$ore_prog = $this->oreProg($users,$id,$d);
         // ore_tot contiene il totale delle ore di lavoro
         $ore_tot = $this->oreTot($users,$id,$d);

@@ -54,7 +54,7 @@
                                 <td>{{ $i->date_end_eff }}</td>
                                 <td>{{ $i->ragsoc }}</td>
                                 <td>{{ $i->hour_cost }} €</td>
-								<td><a href="{{ URL::action('ProjectController@viewprog', $i->id) }}">Visualizza</a>								
+								<td><a href="{{ URL::action('ProjectController@viewprog', $i->id) }}" class="link">Visualizza</a>								
 								<td>
 									<a href="{{ URL::action('ProjectController@edit', $i->id) }}" class="action-link fa fa-pencil"></a>																
 									<a href="{{ URL::action('ProjectController@destroy', $i->id) }}" class="action-link link-danger del-link fa fa-close"></a> 

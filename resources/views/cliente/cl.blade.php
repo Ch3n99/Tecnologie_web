@@ -2,14 +2,14 @@
 
 @section('content')
 <div>
-	<h1>Progetto {{$project->name}}</h1>	
-    <?php if (count($ass) < 1): ?>
+	<h1>Cliente {{ $cliente->ragsoc }}</h1>	
+    <?php if (count($projects) < 1): ?>
     <div id="no-project">
-	    <h2>Non ci sono utenti assegnati a questo progetto</h2>
-	    <a href="{{ URL::action('AssegnazioneController@createass', $project->id) }}">Assegna un nuovo utente a questo progetto</a>
+	    <h2>Non ci sono progetti relativi a questo cliente</h2>
+	    <a href="{{ URL::action('ProjectController@create') }}">Assegna un nuovo utente a questo progetto</a>
     </div>
     <?php else: ?>
-		<form id="form-period" method="get" action="{{ URL::action('ProjectController@viewprog', $project->id) }}" class="form-horizontal form-label-left">
+		<form id="form-period" method="get" action="{{ URL::action('ClienteController@viewcliente', $cliente->id) }}" class="form-horizontal form-label-left">
 	        <div class="input-prepend input-group">
                 <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
 					<input type="text" style="width: 150px" name="date-period-begin" id="date-period-begin" class="form-control date-period" value="{{ $begin->toDateString() }}">
@@ -20,9 +20,8 @@
 		</form>
         <div class="x_panel">
 	        <div class="x_title">
-	            <h2>Attività di lavoro sul progetto nel periodo selezionato</h2>
+	            <h2>Attività di lavoro per il cliente nel periodo selezionato</h2>
 	            <ul class="nav navbar-right panel_toolbox">
-	                <li><a class="add-link" href="{{ URL::action('AssegnazioneController@createass', $project->id) }}"><i class="fa fa-plus"></i></a></li>  <!-- link per creare nuova assegnazione -->
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
 	            
@@ -39,7 +38,7 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
-						@foreach($ore_prog as $i)
+						@foreach($ore_cl as $i)
 							<tr>
 								<td>{{ $i['nome_utente'] }}</td>
 								<td>{{ $i['cognome_utente'] }}</td>
@@ -58,14 +57,14 @@
 	        </div>
 	    </div>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="hidden" id="encoded_ore_prog_list" value="{{ json_encode($ore_prog) }}" />
+						<input type="hidden" id="encoded_ore_cl_list" value="{{ json_encode($ore_cl) }}" />
 						<canvas id="split_pie"></canvas>	        
 		</div>
 	<script type="text/javascript">	
 
 	$(document).ready(function() { 	    
 		
-		var h = JSON.parse( $('#encoded_ore_prog_list').val() );
+		var h = JSON.parse( $('#encoded_ore_cl_list').val() );
 
 		var splitData 	= [];
 		for (i=0; i < h.length; i++) {

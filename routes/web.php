@@ -26,6 +26,7 @@ Route::get('/', 'ProjectController@index');
 // La rotta home ha anche un "nomiglnolo" per essare chiamata attraverso il metodo route('home')
 Route::get('/home', 'ProjectController@index')->name('home');
 Route::get('progetto/{id}/prog', 'ProjectController@viewprog');
+Route::get('cliente/{id}/cl', 'ClienteController@viewcliente');
 Route::get('user/{id}/index2', 'UserController@query3');
 Route::get('assegnazione/{id}/create', 'AssegnazioneController@createass');
 Route::resource('diario', 'DiarioController', ['except' => ['destroy']]);

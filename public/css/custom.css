@@ -7,6 +7,10 @@ h2 {
     line-height: 24px;	
 }
 
+.link {
+	color: blue
+};
+
 .contatti {
 	position:fixed;
 	bottom:0px;
