@@ -20,9 +20,14 @@ class DiarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) //Int $id
+    public function index()
     {
-        // Imposto due date di default: Primo e ultimo gg del mese
+
+    }
+
+    public function viewdiario(Request $request, Int $id)
+    {
+
 		$month 	= Carbon::now()->month;
 		$year 	= Carbon::now()->year;
 
@@ -36,20 +41,25 @@ class DiarioController extends Controller
 		if (isset($input['anno'])) {
 			$year=$input['anno'];
 		}
+        
+        $progetti = DB::table('projects') //stampa progetti a cui sta lavorando l'utente
+            ->join('assegnazioni', 'assegnazioni.id_progetto','=','projects.id')
+            ->where('assegnazioni.id_user','=',$id)
+            ->get();
 
-        $diari = DB::table('diari')
+        $diari = DB::table('diari') //stampa elenco attività dell'utente con nome progetto di riferimento
             ->select('diari.id','diari.data','projects.name','diari.num_ore','diari.note')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->where('assegnazioni.id_user','=',Auth::user()->id) //$id
+            ->where('assegnazioni.id_user','=',$id)
             ->whereMonth('diari.data','=',$month)
             ->whereYear('diari.data','=',$year)
             ->orderBy('diari.data','desc')
             ->get();
 
-        $user = User::find(Auth::user()->id); //$id
+        $user = User::find($id);
         $tot = $this->getTot($diari);
-        return view('diario.index',compact('user','diari','month','year','tot'));
+        return view('diario.index',compact('user','diari','month','year','progetti','tot'));
     }
 
     /**
@@ -155,8 +165,9 @@ class DiarioController extends Controller
     private function getTot($diari)
     {
         $tot_ore = 0;
-        foreach($diari as $d)
-            $tot_ore += $d->num_ore;	                	
+        foreach($diari as $i)
+            $tot_ore += $i->num_ore;	                	
 		return $tot_ore;
     }
+
 }

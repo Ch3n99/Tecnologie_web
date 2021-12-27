@@ -1,4 +1,5 @@
 @extends('app')
+
 @section('content')
 <?php
 $mesi=array(
@@ -16,25 +17,47 @@ $mesi=array(
 	12 => "Dicembre"
 );
 ?>
-<?php if (Auth::user()->ruolo=="Semplice"): ?>
-<div class="x_panel">
-	<h2>Diario dell'utente {{$user->surname}} {{$user->name}}</h2>
-	<div class="clearfix"></div>
-	</div>
-<div class="x_panel">
+<div class="page-title">
+	<div class="title_left"></div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+    <h1>Utente {{ $user->surname }} {{ $user->name }}</h1>
+	    <div class="x_panel">
 	        <div class="x_title">
-	        	<h2>Imposta Periodo</h2>
+	            <h2>Progetti</h2>
+                
 	            <ul class="nav navbar-right panel_toolbox">
-	                <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a></li>
-	            </ul>	        	
-				<div class="clearfix"></div>
+	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+	            </ul>
+                <table class="table table-striped">
+	                <thead>
+	                    <tr>
+                            <th>Nome progetto</th>
+                            <th>Descrizione</th>                         
+	                        <th>Cliente di riferimento</th>
+	                        <th>Costo orario</th>
+	                    </tr>
+	                </thead>
+	                <tbody>  
+						@foreach($progetti as $i)
+							<tr class="row-category">
+                                <td>{{ $i->name }}</td>
+								<td>{{ $i->description }}</td>
+								<td>{{ $i->id_cliente }}</td>
+                                <td>{{ $i->hour_cost }} €</td>
+							
+							</tr>
+						@endforeach	
+	                </tbody>
+	            </table>
+	            
+	            <div class="clearfix"></div>
 	        </div>
-	        <div class="x_content" style="display:none;">	
-				<div class="well">
-                    <fieldset id="period">
-                        <div class="control-group">
-                            <div class="controls">
-								<form id="form-period" method="get" action="{{ URL::action('DiarioController@index') }}" class="form-horizontal form-label-left">
+            <form id="form-period" method="get" action="{{ URL::action('DiarioController@index') }}" class="form-horizontal form-label-left">
 	                                <div class="input-prepend input-group">
 									<div class="col-md-4 col-sm-4 col-xs-12">
 									<select class="form-control" id="month" name="mese">
@@ -46,92 +69,69 @@ $mesi=array(
 												echo "<option value=\"$i\">$mesi[$i]</option>\n";
 										}
 									?>
-                            	</select>
-								</div>
-								<div class="col-md-3 col-sm-3 col-xs-12">
-								<select class="form-control" id="year" name="anno">
-								<?php
-								for ($i = 2015; $i <= 2065; $i++) {
-									if($i==$year)
+                            	    </select>
+								    </div>
+								    <div class="col-md-3 col-sm-3 col-xs-12">
+								    <select class="form-control" id="year" name="anno">
+								    <?php
+								    for ($i = 2015; $i <= 2065; $i++) {
+									    if($i==$year)
 												echo "<option selected=\"selected\" value=\"$i\">$i</option>\n";
 											else
 												echo "<option value=\"$i\">$i</option>\n";
-									}
-								?>
-							</select>
-								</div>
-								<div class="col-md-2 col-sm-2 col-xs-12">
+									    }
+								    ?>
+							        </select>
+								    </div>
+								    <div class="col-md-2 col-sm-2 col-xs-12">
 										<a href="javascript:void(0);" id="reset" style="margin-left: 5px; margin-right: 20px; font-size: 18px;"><i class="fa fa-refresh"></i></a>											
-								</div>
-								<div class="col-md-3 col-sm-3 col-xs-12">	
+								    </div>
+								    <div class="col-md-3 col-sm-3 col-xs-12">	
 										<button type="submit" style="margin-left: 2px; margin-bottom: 0px;" id="submit-period" class="btn btn-primary">Imposta</button>
-								</div>
+								    </div>
 									</div>
-								</form>
-                            </div>
-                        </div>
-                    </fieldset>
-	            </div>
-			</div>
-        </div>
-		<?php if (count($diari) < 1): ?>
-		<div>
-			<h1>Nessuna scheda ore inserita per il periodo selezionato</h1>
-				<h2>
-	            <a href="{{ URL::action('DiarioController@create') }}">Aggiungi nuova scheda ore</a>
-				</h2>
-		</div>
+								    </form>
 
-		<?php else: ?>
+	        </div>
+	    </div>
         <div class="x_title">
-	            <h2>Diario per il periodo selezionato</h2>
+	            <h2>Progetti</h2>
+                
 	            <ul class="nav navbar-right panel_toolbox">
-	                <li><a class="add-link" href="{{ URL::action('DiarioController@create') }}"><i class="fa fa-plus"></i></a></li>
+	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
+                <table class="table table-striped">
+	                <thead>
+	                    <tr>
+                            <th>Data</th>
+                            <th>Note</th>
+	                        <th>Nome progetto</th>
+                            <th>Numero ore</th>                                                
+	                    </tr>
+	                </thead>
+	                <tbody>  
+						@foreach($diari as $i)
+							<tr class="row-category">
+                                <td>{{ $i->data }}</td>
+                                <td>{{ $i->note }}</td>
+                                <td>{{ $i->name }}</td>
+								<td>{{ $i->num_ore }} h</td>							
+							</tr>
+						@endforeach	
+	                </tbody>
+                    <tfoot>
+                            <tr>
+                                <th>Totale </th>
+                                <th></th>
+                                <th></th>
+                                <th>{{ number_format($tot, 2) }} h</th>
+                            </tr>
+                    </tfoot>
+	            </table>
+	            
 	            <div class="clearfix"></div>
 	        </div>
-<div class="x_content">	        
-	        	<div class="col-md-6 col-sm-6 col-xs-12">
-		            <table id="table-summary" class="table table-striped">
-		                <thead>
-		                    <tr>
-								<th>Data</th>
-                                <th>Nome progetto</th>
-                                <th>Numero ore</th>
-                                <th>Note</th>
-		                    </tr>
-		                </thead>
-
-		                <tbody>			
-		                	@foreach ($diari as $d)
-								<tr>										
-                                    <td>{{ date('Y-m-d', strtotime($d->data)) }}</td>             
-                                    <td>{{ $d->name }}</td>
-                                    <td>{{ $d->num_ore }} h</td>
-                                    <td>{{ $d->note }}</td>
-									<td>
-									<a href="{{ URL::action('DiarioController@edit', $d->id) }}" class="action-link fa fa-pencil"></a>														
-									<a href="{{ URL::action('DiarioController@destroy', $d->id) }}" onClick="return confirm('Sei sicuro di voler cancellare questa riga?')" class="action-link link-danger fa fa-close"></a>
-								</td>		
-								</tr>
-		                	@endforeach
-		                </tbody>
-		                <tfoot>
-							<tr>						
-								<th><strong>Totale ore</strong></th>
-								<th></th>
-								<th>{{ number_format($tot, 2) }} h</th>	
-								<th></th>	
-								<th></th>													
-							</tr>
-						</tfoot>
-		            </table>	
-		            
-					<br/>
-
-<?php endif; ?>
-<script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script> 
-<?php else: ?>
-	<h2>Non hai il permesso per accedere a questa pagina</h2>
-<?php endif; ?>
+	</div>	
+</div>
+<script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>
 @stop
