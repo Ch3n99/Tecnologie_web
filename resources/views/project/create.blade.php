@@ -119,6 +119,28 @@
 	    </div>
 	</div>
 </div>
-		
+<script>
+	$('document').ready(function(){
+		$('#insert').click(function(add){
+			add.preventDefault();
+			$.ajaxSetup({
+				var id = $(this).val();
+				headers:{'X-CSRF-TOKEN':$('meta[name="csrf_token"]').attr('content')}
+			});
+			$.ajax({
+				url:"project/",
+				method:"post",
+				data: $('#form').serialize(),
+				success:function(response){
+					location.reload(true);
+				},
+				error:function(response,stato){
+					console.log(stato);
+				}
+			});
+		});
+		return false;
+	});
+</script>		
 
 @stop

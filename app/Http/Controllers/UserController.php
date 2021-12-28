@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
 
 class UserController extends Controller
 {
@@ -14,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $utenti=User::all();
+        return view("utente.index",compact('utenti'));
     }
 
     /**
@@ -24,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view("utente.create");
     }
 
     /**
@@ -35,7 +37,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+			'name' 					=> 'required|min:3',
+			'surname' 				=> 'required|min:3',
+			'email' 				=> 'required|unique:users|email',
+			'ruolo'					=> 'required',	
+			'password' 				=> 'required|confirmed|min:8',
+			'password_confirmation' => 'required',
+		]);
+
+		$input = $request->all();
+		$input['password'] = bcrypt($input['password']);
+
+		$newUser = User::create($input);
+		
+
+		return redirect('utente'); 
     }
 
     /**
@@ -57,7 +74,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $utente=User::find($id);
+        return view("utente.edit",compact('utente'));
     }
 
     /**
@@ -67,9 +85,35 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Int $id)
     {
-        //
+        $validatedData = $request->validate([
+			'name' 					=> 'required|min:3',
+			'surname' 				=> 'required|min:3',
+			'ruolo'					=> 'required',
+			'email' 				=> 'required|email',
+			'password' 				=> 'nullable|confirmed|min:8',
+			'password_confirmation' => 'sometimes|required_with:password',
+		]);
+	
+		$input = $request->all();
+		
+		// Se il campo password non viene configurato, allora non cambio 
+		// la password ed elimino i campi vuoti dai dati altrimenti si 
+		// sovrascriverebbe la password
+		
+		if (!empty($input['password'])) {
+			$input['password'] = bcrypt($input['password']);
+		
+		} else {
+			unset($input['password']);
+		}
+		
+		$user = User::find($id);
+				
+		$user->update($input);
+		
+		return redirect('utente');
     }
 
     /**
@@ -78,8 +122,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Request $request, $id)
+    {			 	
+		try {
+			$user = User::find($id);
+			$user->delete();
+		
+		} catch (\Illuminate\Database\QueryException $e) {
+			return redirect('utente')->withErrors(['L\'utente non può essere cancellato']);
+		}
+		
+		return redirect('utente');
     }
 }
