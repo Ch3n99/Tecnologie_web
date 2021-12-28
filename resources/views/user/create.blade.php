@@ -36,18 +36,29 @@
 		                    </ul>
 		                </div>
 					@endif
-						                
-	                <div class="form-group">
+
+                    <div class="form-group">
 	                    <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Nome <span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
 	                        <input type="text" name="name" class="form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
-
+						                
 	                <div class="form-group">
-	                    <label for="surname" class="control-label col-md-3 col-sm-3 col-xs-12">Cognome <span class="required">*</span></label>
+	                    <label for="surname" class="control-label col-md-3 col-sm-3 col-xs-12">Cognome<span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
 	                        <input type="text" name="surname" class="form-control col-md-7 col-xs-12">
+	                    </div>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="ruolo" class="control-label col-md-3 col-sm-3 col-xs-12">Ruolo <span class="required">*</span></label>
+	                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="form-control" name="ruolo">
+									<option value="none" selected disabled hidden></option>
+	                                <option value="Admin">Admin</option>
+									<option value="Semplice">Semplice</option>
+                            </select>
 	                    </div>
 	                </div>
 	                
@@ -57,32 +68,18 @@
 	                        <input type="email" name="email" class="form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
-
-					<div class="form-group">
-	                    <label for="ruolo" class="control-label col-md-3 col-sm-3 col-xs-12">Ruolo <span class="required">*</span>
-	                    </label>	                    
-	                    <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" name="ruolo">
-									<option value="none" selected disabled hidden></option>
-	                                <option value="Admin">Admin</option>
-									<option value="Semplice">Semplice</option>
-                            </select>
-                        </div>
-                    </div>
-                                        
-	                <div class="form-group">
+                    <div class="form-group">
 	                    <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Password <span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
 	                        <input type="password" name="password" class="form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
-
-	                <div class="form-group">
+                    <div class="form-group">
 	                    <label for="password_confirmation" class="control-label col-md-3 col-sm-3 col-xs-12">Conferma Password <span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
 	                        <input type="password" name="password_confirmation" class="form-control col-md-7 col-xs-12">
 	                    </div>
-	                </div>
+	                </div
 	                	                	                
 	                <div class="ln_solid"></div>
 	                
@@ -105,7 +102,7 @@
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf_token"]').attr('content')}
 			});
 			$.ajax({
-				url:"user/",
+				url:"utente/",
 				method:"post",
 				data: $('#form').serialize(),
 				success:function(response){
@@ -118,7 +115,7 @@
 		});
 		return false;
 	});
-</script> 
+</script>
 <?php else: ?>
 	<h2>Non hai il permesso per accedere a questa pagina</h2>
 <?php endif; ?>

@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $utenti=User::all();
-        return view("utente.index",compact('utenti'));
+        return view("user.index",compact('utenti'));
     }
 
     /**
@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view("utente.create");
+        return view("user.create");
     }
 
     /**
@@ -52,7 +52,7 @@ class UserController extends Controller
 		$newUser = User::create($input);
 		
 
-		return redirect('utente'); 
+		return redirect('user'); 
     }
 
     /**
@@ -75,7 +75,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $utente=User::find($id);
-        return view("utente.edit",compact('utente'));
+        return view("user.edit",compact('utente'));
     }
 
     /**
@@ -113,7 +113,7 @@ class UserController extends Controller
 				
 		$user->update($input);
 		
-		return redirect('utente');
+		return redirect('user');
     }
 
     /**
@@ -129,9 +129,9 @@ class UserController extends Controller
 			$user->delete();
 		
 		} catch (\Illuminate\Database\QueryException $e) {
-			return redirect('utente')->withErrors(['L\'utente non può essere cancellato']);
+			return redirect('user')->withErrors(['L\'utente non può essere cancellato']);
 		}
 		
-		return redirect('utente');
+		return redirect('user');
     }
 }
