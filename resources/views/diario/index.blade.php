@@ -28,11 +28,15 @@ $mesi=array(
     <h1>Utente {{ $user->surname }} {{ $user->name }}</h1>
 	    <div class="x_panel">
 	        <div class="x_title">
-	            <h2>Progetti</h2>
-                
-	            <ul class="nav navbar-right panel_toolbox">
+			<h2>Progetti</h2>
+			<ul class="nav navbar-right panel_toolbox">
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
+			<div class="clearfix"></div>
+	        </div>
+	            
+                
+			<div class="x_content">
                 <table class="table table-striped">
 	                <thead>
 	                    <tr>
@@ -54,10 +58,11 @@ $mesi=array(
 						@endforeach	
 	                </tbody>
 	            </table>
-	            
-	            <div class="clearfix"></div>
+            
+			</div>
 	        </div>
-            <form id="form-period" method="get" action="{{ URL::action('DiarioController@index') }}" class="form-horizontal form-label-left">
+			</br></br>
+			<form id="form-period" method="get" action="{{ URL::action('DiarioController@viewdiario', $user->id) }}" class="form-horizontal form-label-left">
 	                                <div class="input-prepend input-group">
 									<div class="col-md-4 col-sm-4 col-xs-12">
 									<select class="form-control" id="month" name="mese">
@@ -91,15 +96,17 @@ $mesi=array(
 								    </div>
 									</div>
 								    </form>
-
-	        </div>
 	    </div>
-        <div class="x_title">
-	            <h2>Progetti</h2>
+        <div class="x_panel">
+	        <div class="x_title">
+	            <h2>Diario mensile</h2>
                 
 	            <ul class="nav navbar-right panel_toolbox">
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
+				<div class="clearfix"></div>
+	        </div>
+			<div class="x_content">
                 <table class="table table-striped">
 	                <thead>
 	                    <tr>
