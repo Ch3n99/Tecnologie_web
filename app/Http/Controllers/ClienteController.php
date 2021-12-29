@@ -78,7 +78,7 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request, Int $id)
     {
         $validatedData = $request->validate([
             'ragsoc' 				=> 'required|min:3',
@@ -88,6 +88,7 @@ class ClienteController extends Controller
 		]);
 
 		$input = $request->all();
+        $cliente=Cliente::find($id);
 		$cliente->update($input);
 
 		return redirect('cliente'); 

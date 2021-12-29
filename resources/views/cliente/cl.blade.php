@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+<?php if (Auth::user()->ruolo=="Admin"): ?>
 <div>
 	<h1>Cliente {{ $cliente->ragsoc }}</h1>	
     <?php if (count($projects) < 1): ?>
@@ -113,4 +114,7 @@
 <?php endif; ?>
 </div>
 <script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>
+<?php else: ?>
+	<h2>Non hai il permesso per accedere a questa pagina</h2>
+<?php endif; ?>
 @stop

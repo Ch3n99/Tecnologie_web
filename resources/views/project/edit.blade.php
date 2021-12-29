@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-
+<?php if (Auth::user()->ruolo=="Admin"): ?>
 <div class="page-title">
 	<div class="title_left"></div>
 </div>
@@ -116,6 +116,8 @@
 	    </div>
 	</div>
 </div>
-		
+<?php else: ?>
+	<h2>Non hai il permesso per accedere a questa pagina</h2>
+<?php endif; ?>	
 
 @stop

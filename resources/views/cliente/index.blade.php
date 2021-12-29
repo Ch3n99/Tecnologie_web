@@ -38,14 +38,14 @@
 	                
 						@foreach($clienti as $i)
 							<tr class="row-category">
-                                <td>{{ $i['ragsoc'] }}</td>
-								<td>{{ $i['name'] }}</td>
-								<td>{{ $i['surname'] }}</td>
-								<td>{{ $i['email'] }}</td>
+                                <td>{{ $i->ragsoc }}</td>
+								<td>{{ $i->name }}</td>
+								<td>{{ $i->surname }}</td>
+								<td>{{ $i->email }}</td>
 								<td><a href="{{ URL::action('ClienteController@viewcliente', $i->id) }}" class="link">Visualizza</a>	
 								<td>
-									<a href="{{ URL::action('ClienteController@edit', $i['id']) }}" class="action-link fa fa-pencil"></a>																									
-									<a href="{{ URL::action('ClienteController@destroy', $i['id']) }}" onClick="return confirm('Sei sicuro di voler cancellare questa riga?')" class="action-link link-danger fa fa-close"></a>
+									<a href="{{ URL::action('ClienteController@edit', $i->id) }}" class="action-link fa fa-pencil"></a>																									
+									<a href="{{ URL::action('ClienteController@destroy', $i->id) }}" onClick="return confirm('Sei sicuro di voler cancellare questa riga?')" class="action-link link-danger fa fa-close"></a>
 								</td>
 							</tr>
 						@endforeach

@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+<?php if (Auth::user()->ruolo=="Admin"): ?>
 <div>
 	<h2>Assegna il progetto {{$project->name}} a un nuovo utente</h2>
     <ul class="nav navbar-right panel_toolbox">
@@ -58,5 +59,7 @@
 </br> </br>
 	                <button type="submit" class="btn btn-primary">Assegna</button>  <!-- bottone di conferma -->
 	            </form> 
-					
+<?php else: ?>
+	<h2>Non hai il permesso per accedere a questa pagina</h2>
+<?php endif; ?>					
 @stop

@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+<?php if (Auth::user()->ruolo=="Admin"): ?>
 <?php
 $mesi=array(
     1 => "Gennaio",
@@ -141,4 +142,7 @@ $mesi=array(
 	</div>	
 </div>
 <script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>
+<?php else: ?>
+	<h2>Non hai il permesso per accedere a questa pagina</h2>
+<?php endif; ?>
 @stop
