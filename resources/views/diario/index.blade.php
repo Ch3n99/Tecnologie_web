@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-<?php if (Auth::user()->ruolo=="Admin"): ?>
+<?php if ((Auth::user()->ruolo=="Admin") || (Auth::user()->id==$user->id)): ?>
 <?php
 $mesi=array(
     1 => "Gennaio",
@@ -120,7 +120,9 @@ $mesi=array(
 	            <h2>Diario mensile</h2>
                 
 	            <ul class="nav navbar-right panel_toolbox">
+					<?php if(Auth::user()->id==$user->id): ?>
 					<li><a class="add-link" href="{{ URL::action('DiarioController@create') }}"><i class="fa fa-plus"></i></a></li>
+					<?php endif; ?>
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
 				<div class="clearfix"></div>
@@ -132,7 +134,8 @@ $mesi=array(
                             <th>Data</th>
                             <th>Note</th>
 	                        <th>Nome progetto</th>
-                            <th>Numero ore</th>                                                
+                            <th>Numero ore</th>
+							<th></th>                                                
 	                    </tr>
 	                </thead>
 	                <tbody>  
@@ -141,7 +144,13 @@ $mesi=array(
                                 <td>{{ $i->data }}</td>
                                 <td>{{ $i->note }}</td>
                                 <td>{{ $i->name }}</td>
-								<td>{{ $i->num_ore }} h</td>							
+								<td>{{ $i->num_ore }} h</td>
+								<td>
+								<?php if(Auth::user()->id==$user->id): ?>	
+									<a href="{{ URL::action('DiarioController@edit', $i->id) }}" class="action-link fa fa-pencil"></a>																
+									<a href="{{ URL::action('DiarioController@destroy', $i->id) }}" class="action-link link-danger del-link fa fa-close"></a>
+								<?php endif; ?>
+								</td>							
 							</tr>
 						@endforeach	
 	                </tbody>

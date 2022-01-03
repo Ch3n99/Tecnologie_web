@@ -22,7 +22,7 @@
 		<!-- Javascript -->
 		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
-		<title>{{ config('app.name', 'Info360') }}</title>
+		<title>{{ config('app.name', 'Count On Us') }}</title>
 	    
 		<!-- CSRF Token -->
     	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -37,25 +37,29 @@
             <div class="main_container">
             	<div class="col-md-3 left_col">
 					<div class="navbar nav_title" style="border: 2;">
-                        <a href="{{ route('home') }}" class="site_title"><img src="{{ URL::asset('images/info.png') }}" id="logo" /> <span>Info360</span></a>
+                        <a href="{{ route('home') }}" class="site_title"><img src="{{ URL::asset('images/a.webp') }}" id="logo" /> <span>Count On Us</span></a>
                         <br /> 
-                        <!-- sidebar menu -->
-						<?php if (Auth::user()->ruolo=="Admin"): ?>	
+                        <!-- sidebar menu -->	
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             <div class="menu_section">
                                 <ul class="nav side-menu">
                                     <li class="">
 										<a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu" style="">										
+                                        <ul class="nav child_menu" style="">
+										<?php if (Auth::user()->ruolo=="Admin"): ?>											
                                             <li><a href="{{ URL::action('ProjectController@index') }}">Progetti</a></li>
 											<li><a href="{{ URL::action('ClienteController@index') }}">Clienti</a></li>
-                                            <li><a href="{{ URL::action('UserController@index') }}">Utenti</a></li>										
+                                            <li><a href="{{ URL::action('UserController@index') }}">Utenti</a></li>
+										<?php else: ?>
+											<li><a href="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}">Diario</a></li>
+											<li><a href="{{ URL::action('DiarioController@create') }}">Inserisci scheda ore</a></li>
+										<?php endif; ?>										
                                         </ul>
                                     </li>
 								</ul>                                                
 							</div>							           		
 						</div>						        		
-						<?php endif; ?>
+						
                     </div>  
 					          		
             	</div>

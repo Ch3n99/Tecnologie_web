@@ -108,7 +108,7 @@ class ProjectController extends Controller
 		$input = $request->all();
 		$project=Project::find($id);
         $project->update($input);
-        return redirect('progetto');
+        return redirect('project');
 
     }
 

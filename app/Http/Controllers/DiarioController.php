@@ -27,7 +27,6 @@ class DiarioController extends Controller
 
     public function viewdiario(Request $request, Int $id)
     {
-
 		$month 	= Carbon::now()->month;
 		$year 	= Carbon::now()->year;
 
@@ -97,7 +96,7 @@ class DiarioController extends Controller
 
         $input = $request->all();  
 		Diario::create($input);
-		return redirect('diario.create');
+		return back()->with('success', 'Nuova scheda ore aggiunta con successo!');
     }
 
     /**
@@ -124,7 +123,7 @@ class DiarioController extends Controller
 		$asseg=DB::table('assegnazioni')
             ->select('assegnazioni.id','assegnazioni.id_progetto','projects.name','assegnazioni.id_user')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
-            ->where('assegnazioni.id_user','=', Auth::user()->id) //$id
+            ->where('assegnazioni.id_user','=', Auth::user()->id)
             ->get();
 
 		return view('diario.edit', compact('id', 'asseg','d'));
@@ -137,7 +136,7 @@ class DiarioController extends Controller
      * @param  \App\Diario  $diario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Diario $diario)
+    public function update(Request $request, Int $id)
     {
         $validatedData = $request->validate([
 			'data'          => 'required',
@@ -147,8 +146,9 @@ class DiarioController extends Controller
 		]);
 		
 		$input = $request->all();
+        $diario = Diario::find($id);
 		$diario->update($input);
-		return redirect('diario');
+		return redirect('utente');
     }
 
     /**

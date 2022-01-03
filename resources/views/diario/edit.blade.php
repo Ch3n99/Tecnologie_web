@@ -1,7 +1,6 @@
 @extends('app')
 
 @section('content')
-<?php if (Auth::user()->ruolo=="Semplice"): ?>
 <div class="page-title">
 	<div class="title_left"></div>
 </div>
@@ -14,7 +13,7 @@
 	        <div class="x_title">
 	            <h2>Modifica scheda ore</h2>
 	            <ul class="nav navbar-right panel_toolbox">
-					<li><a class="" href="{{ URL::action('DiarioController@index', Auth::user()->id) }}"><i class="fa fa-close"></i></a></li>	                
+					<li><a class="" href="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}"><i class="fa fa-close"></i></a></li>	                
 	            </ul>
 	            <div class="clearfix"></div>
 	        </div>
@@ -22,7 +21,7 @@
 	            
 	            <br>
 	            
-	            <form method="POST" action="{{ URL::action('DiarioController@update', $d) }}" class="form-horizontal form-label-left">
+	            <form method="POST" action="{{ URL::action('DiarioController@update', $d->id) }}" class="form-horizontal form-label-left">
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 					<input type="hidden" name="_method" value="PUT">
 
@@ -89,7 +88,4 @@
 	</div>
 </div>
 <script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script> 
-<?php else: ?>
-	<h2>Non hai il permesso per accedere a questa pagina</h2>
-<?php endif; ?>
 @stop

@@ -70,6 +70,7 @@
 </div>
 <?php endif; ?>
 <?php else: ?>
-	<h2>Non hai il permesso per accedere a questa pagina</h2>
+	<h1>Benvenuto {{Auth::user()->name}} {{Auth::user()->surname}}</h1>
+	<h2>Clicca <a href="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}" class="link">qui</a> per vedere il tuo diario</h2>		
 <?php endif; ?>
 @stop
