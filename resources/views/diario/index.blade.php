@@ -27,9 +27,17 @@ $mesi=array(
 <div class="row">
 	<div class="col-md-12 col-sm-12 col-xs-12">
     <h1>Utente {{ $user->surname }} {{ $user->name }}</h1>
+	<?php if (count($progetti) < 1): ?>
+
+	<div id="no-project">
+		<h2>L'utente non sta lavorando a nessun progetto</h2>
+	</div>
+
+	<?php else: ?>
 	    <div class="x_panel">
 	        <div class="x_title">
 			<h2>Progetti</h2>
+
 			<ul class="nav navbar-right panel_toolbox">
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
@@ -45,6 +53,7 @@ $mesi=array(
                             <th>Descrizione</th>                         
 	                        <th>Cliente di riferimento</th>
 	                        <th>Costo orario</th>
+							<th></th>
 	                    </tr>
 	                </thead>
 	                <tbody>  
@@ -52,9 +61,9 @@ $mesi=array(
 							<tr class="row-category">
                                 <td>{{ $i->name }}</td>
 								<td>{{ $i->description }}</td>
-								<td>{{ $i->id_cliente }}</td>
+								<td>{{ $i->ragsoc }}</td>
                                 <td>{{ $i->hour_cost }} €</td>
-							
+								<td><a href="{{ URL::action('AssegnazioneController@destroy', $i->id) }}" class="action-link link-danger del-link fa fa-close"></a> </td>
 							</tr>
 						@endforeach	
 	                </tbody>
@@ -98,11 +107,20 @@ $mesi=array(
 									</div>
 								    </form>
 	    </div>
+	</br></br>
+	<?php if (count($diari) < 1): ?>
+
+	<div id="no-project">
+		<h2>Nessun diario per il periodo selezionato</h2>
+	</div>
+
+	<?php else: ?>
         <div class="x_panel">
 	        <div class="x_title">
 	            <h2>Diario mensile</h2>
                 
 	            <ul class="nav navbar-right panel_toolbox">
+					<li><a class="add-link" href="{{ URL::action('DiarioController@create') }}"><i class="fa fa-plus"></i></a></li>
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 	            </ul>
 				<div class="clearfix"></div>
@@ -141,6 +159,8 @@ $mesi=array(
 	        </div>
 	</div>	
 </div>
+<?php endif; ?>
+<?php endif; ?>
 <script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>
 <?php else: ?>
 	<h2>Non hai il permesso per accedere a questa pagina</h2>

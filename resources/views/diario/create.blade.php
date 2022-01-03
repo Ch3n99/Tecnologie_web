@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-<?php if (Auth::user()->ruolo=="Semplice"): ?>
+
 <div class="page-title">
 	<div class="title_left"></div>
 </div>
@@ -14,7 +14,7 @@
 	        <div class="x_title">
 	            <h2>Aggiungi una scheda ore</h2>
 	            <ul class="nav navbar-right panel_toolbox">
-					<li><a class="" href="{{ URL::action('DiarioController@index') }}"><i class="fa fa-close"></i></a></li>	                
+					<li><a class="" href="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}"><i class="fa fa-close"></i></a></li>	                
 	            </ul>
 	            <div class="clearfix"></div>
 	        </div>
@@ -22,7 +22,7 @@
 	            
 	            <br>
 	            
-	            <form id="create-form" method="POST" action="{{ URL::action('DiarioController@index') }}" id="form" class="form-horizontal form-label-left">
+	            <form id="create-form" method="POST" action="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}" id="form" class="form-horizontal form-label-left">
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 					@if ($errors->any())
@@ -44,13 +44,6 @@
 		                </div>
 					@endif
 
-					@if (session('error'))
-						<div class="alert alert-create alert-danger alert-dismissible fade in" role="alert">
-		                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-							<p>{{ session('error') }}</p>
-		                </div>
-					@endif
-
                     <div class="form-group">
 	                    <label for="data" class="control-label col-md-3 col-sm-3 col-xs-12">Data<span class="required">*</span>
 	                    </label>
@@ -60,7 +53,7 @@
 	                </div>
 
                     <div class="form-group">
-	                    <label for="num_ore" class="control-label col-md-3 col-sm-3 col-xs-12">Numero ore <span class="required">*</span></label>
+	                    <label for="num_ore" class="control-label col-md-3 col-sm-3 col-xs-12">Numero ore<span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
 	                        <input type="number" step="0.50" id="num_ore" name="num_ore" class="form-control col-md-7 col-xs-12">
 	                    </div>
@@ -98,30 +91,5 @@
 	</div>
 </div>
 <script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>
-<script>
-	$('document').ready(function(){
-		$('#insert').click(function(add){
-			add.preventDefault();
-			$.ajaxSetup({
-				var id = $(this).val();
-				headers:{'X-CSRF-TOKEN':$('meta[name="csrf_token"]').attr('content')}
-			});
-			$.ajax({
-				url:"diario/",
-				method:"post",
-				data: $('#form').serialize(),
-				success:function(response){
-					location.reload(true);
-				},
-				error:function(response,stato){
-					console.log(stato);
-				}
-			});
-		});
-		return false;
-	});
-</script> 
-<?php else: ?>
-	<h2>Non hai il permesso per accedere a questa pagina</h2>
-<?php endif; ?>	
+
 @stop

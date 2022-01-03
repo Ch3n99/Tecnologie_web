@@ -43,7 +43,9 @@ class DiarioController extends Controller
 		}
         
         $progetti = DB::table('projects') //stampa progetti a cui sta lavorando l'utente
+            ->select('projects.name','projects.description','clienti.ragsoc','projects.hour_cost','assegnazioni.id')
             ->join('assegnazioni', 'assegnazioni.id_progetto','=','projects.id')
+            ->join('clienti', 'projects.id_cliente','=','clienti.id')
             ->where('assegnazioni.id_user','=',$id)
             ->get();
 
@@ -69,7 +71,7 @@ class DiarioController extends Controller
      */
     public function create()
     {
-        $asseg=DB::table('assegnazioni')
+        $asseg=DB::table('assegnazioni') //questa query elenca solo i progetti ai quali l'utente è stato assegnato
             ->select('assegnazioni.id','assegnazioni.id_progetto','projects.name')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
             ->where('assegnazioni.id_user','=', Auth::user()->id)
@@ -95,7 +97,7 @@ class DiarioController extends Controller
 
         $input = $request->all();  
 		Diario::create($input);
-		return redirect('diario');
+		return redirect('diario.create');
     }
 
     /**

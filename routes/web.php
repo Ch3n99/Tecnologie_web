@@ -35,6 +35,7 @@ Route::resource('cliente', 'ClienteController', ['except' => ['destroy']]);
 Route::resource('progetto', 'ProjectController', ['except' => ['destroy']]);
 Route::resource('assegnazione', 'AssegnazioneController', ['except' => ['destroy']]);
 Route::get('utente/{id}/destroy', 'UserController@destroy');
+Route::get('assegnazione/{id}/destroy', 'AssegnazioneController@destroy');
 Route::get('cliente/{id}/destroy', 'ClienteController@destroy');
 Route::get('progetto/{id}/destroy', 'ProjectController@destroy');
 Route::get('diario/{id}/destroy', 'DiarioController@destroy');

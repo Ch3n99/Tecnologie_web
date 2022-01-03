@@ -114,7 +114,9 @@ class AssegnazioneController extends Controller
      */
     public function destroy(Int $id)
     {
-        //
+        $ass=Assegnazione::find($id);
+        $ass->delete();
+        return back();
     }
 
     
