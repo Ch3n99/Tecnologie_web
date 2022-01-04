@@ -160,6 +160,7 @@ $mesi=array(
                                 <th></th>
                                 <th></th>
                                 <th>{{ number_format($tot, 2) }} h</th>
+								<th></th>
                             </tr>
                     </tfoot>
 	            </table>
