@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
+//descrive la struttura della tabella presente nel db
 class Project extends Model
 {
-	
+	//elenco campi
 	protected $fillable = [
 		'name',
 		'description',
@@ -18,7 +18,7 @@ class Project extends Model
 		'id_cliente',
 		'hour_cost'		
 	];
-
+//qui vengono riportati i collegamenti con le altre tabelle, sia lato 1 che lato N
 	public function clienti() {
 		return $this->belongsTo('App\Cliente');
 	}

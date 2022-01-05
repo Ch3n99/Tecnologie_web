@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
+//includo i model di cui ho bisogno per interfacciarmi al db
 use App\Project;
 use App\Assegnazione;
 use App\Diario;
@@ -15,6 +16,7 @@ use DB;
 
 class ProjectController extends Controller
 {
+    //l'utente può accedere dopo il login
     public function __construct() 
 	{
 		$this->middleware('auth');	
@@ -40,9 +42,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() //rimanda al form di creazione di un progetto
     {
-        $clienti=Cliente::all();
+        $clienti=Cliente::all(); //serve per menù a tendina nella view
         return view('project.create',compact('clienti'));
     }
 
@@ -78,7 +80,7 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Int $id)
+    public function edit(Int $id) //rimanda al form per la modifica di un progetto
     {
         $project = Project::find($id); //progetto che voglio modificare
 		$clienti = Cliente::all();
@@ -122,7 +124,7 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Int $id)
+    public function destroy(Int $id) //eliminazione di un progetto
     {
         $project = Project::find($id);
         $project->delete();

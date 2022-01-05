@@ -24,11 +24,13 @@ Route::get('logout', 'Auth\LoginController@logout');
  */
 Route::get('/', 'ProjectController@index');
 // La rotta home ha anche un "nomignolo" per essare chiamata attraverso il metodo route('home')
+// le rotte devono mappare le corrispondenze tra un URL e l'appropriata funzione del controller
 Route::get('/home', 'ProjectController@index')->name('home');
 Route::get('progetto/{id}/prog', 'ProjectController@viewprog');
 Route::get('cliente/{id}/cl', 'ClienteController@viewcliente');
 Route::get('diario/{id}/view', 'DiarioController@viewdiario');
 Route::get('assegnazione/{id}/create', 'AssegnazioneController@createass');
+// la scrittura resource è una scorciatoia per mappare tutti gli url di una risorsa col rispettivo controller
 Route::resource('diario', 'DiarioController', ['except' => ['destroy']]);
 Route::resource('user', 'UserController', ['except' => ['destroy']]);
 Route::resource('cliente', 'ClienteController', ['except' => ['destroy']]);
