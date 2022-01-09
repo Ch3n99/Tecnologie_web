@@ -34,7 +34,7 @@ class AssegnazioneController extends Controller
 
     }
 
-    public function createass(Int $id)
+    public function createass(Int $id) //per creare assegnazione serve id progetto
     {
         $project=Project::find($id);
         $users=User::all();
@@ -56,7 +56,7 @@ class AssegnazioneController extends Controller
         $assegnazioni=Assegnazione::all();
 		$input = $request->all();
         $test = 1;
-        foreach($assegnazioni as $a){
+        foreach($assegnazioni as $a){ //controllo se l'assegnazione esiste già
             if($input['id_user']==$a->id_user && $input['id_progetto']==$a->id_progetto)
             {
                 $test = 0;

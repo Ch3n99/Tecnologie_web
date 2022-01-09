@@ -22,7 +22,7 @@
 	            
 	            <br>
 	            
-	            <form id="create-form" method="POST" action="{{ URL::action('ProjectController@index') }}" class="form-horizontal form-label-left"> <!-- pagina di creazione quindi form -->
+	            <form id="form" method="POST" action="{{ URL::action('ProjectController@index') }}" class="form-horizontal form-label-left"> <!-- pagina di creazione quindi form -->
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 					@if ($errors->any()) 																	<!-- mostra errori -->
@@ -69,7 +69,7 @@
 	                    <label for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Data d'inizio<span class="required">*</span>
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="date_start" name="date_start" value="{{ date('Y-m-d') }}" class="date-picker form-control col-md-7 col-xs-12">
+	                        <input type="text" class="form-control date-period" id="date_start" name="date_start" value="{{ date('Y-m-d') }}" class="date-picker form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
 
@@ -77,7 +77,7 @@
 	                    <label for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Data fine prevista
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="date_end_prev" name="date_end_prev" class="date-picker form-control col-md-7 col-xs-12">
+	                        <input type="text" class="form-control date-period" id="date_end_prev" name="date_end_prev" class="date-picker form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
 
@@ -85,7 +85,7 @@
 	                    <label for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Data fine effettiva
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="date_end_eff" name="date_end_eff" class="date-picker form-control col-md-7 col-xs-12">
+	                        <input type="text" class="form-control date-period" id="date_end_eff" name="date_end_eff" class="date-picker form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
 	                
@@ -95,7 +95,7 @@
                             <select class="form-control" name="id_cliente">
 								<option value="none" selected disabled hidden></option>
 								@foreach ($clienti as $i)									<!-- per ciascun cliente genero opzione menù a tendina -->
-	                                <option value="{{ $i->id }}">{{ $i->ragsoc }}</option>  <!--- salvo l'id ma mostro il nome -->
+	                                <option value="{{ $i->id }}">{{ $i->ragsoc }}</option>  <!-- salvo l'id ma mostro il nome -->
 								@endforeach
                             </select>
                         </div>
@@ -111,7 +111,7 @@
 	                <div class="ln_solid"></div>
 	                <div class="form-group">
 	                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-	                        <button type="submit" class="btn btn-primary">Aggiungi</button>  <!-- bottone di conferma -->
+	                        <button type="submit" id="insert" class="btn btn-primary">Aggiungi</button>  <!-- bottone di conferma -->
 	                    </div>
 	                </div>
 	            </form>
@@ -119,7 +119,8 @@
 	    </div>
 	</div>
 </div>
-<script>
+<!-- parte ajax -->
+<script> 
 	$('document').ready(function(){
 		$('#insert').click(function(add){
 			add.preventDefault();
@@ -141,7 +142,8 @@
 		});
 		return false;
 	});
-</script>		
+</script>	
+<script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>	
 <?php else: ?>
 	<h2>Non hai il permesso per accedere a questa pagina</h2>
 <?php endif; ?>

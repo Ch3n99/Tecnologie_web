@@ -108,7 +108,7 @@ class ClienteController extends Controller
 		return redirect("cliente");
     }
 
-    public function viewcliente(Request $request, Int $id)
+    public function viewcliente(Request $request, Int $id) //funzione per vedere dettagli aggiuntivi di un singolo cliente
     {
         $projects=DB::table('projects') //restituisce i progetti relativi a un determinato cliente
             ->where('projects.id_cliente','=',$id)
@@ -144,7 +144,7 @@ class ClienteController extends Controller
         // ore_tot contiene il totale delle ore di lavoro
         $ore_tot = $this->oreTot($users,$projects,$d);
 
-        return view('cliente.cl',compact('projects','begin','end','ore_cl','ore_tot','cliente'));
+        return view('cliente.details',compact('projects','begin','end','ore_cl','ore_tot','cliente'));
     }
 
     private function oreCl($users,$projects,$d) 
@@ -152,7 +152,7 @@ class ClienteController extends Controller
 		$tot_ore = [];
         foreach($users as $user){
             $cl_ore = 0;
-            foreach($projects as $project)  {
+            foreach($projects as $project)  { //scorro i progetti del cliente in questione
 	            foreach ($d as $diario) {
                     if($diario->id_progetto==$project->id && $diario->id_user == $user->id)
                         $cl_ore += $diario->tot_ore;

@@ -63,7 +63,7 @@
 	                    <label for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Data d'inizio<span class="required">*</span>
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="date_start" name="date_start" value="{{ $project->date_start }}" class="date-picker form-control col-md-7 col-xs-12">
+	                        <input type="text" id="date_start" class="form-control date-period" name="date_start" value="{{ $project->date_start }}" class="date-picker form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
 
@@ -71,7 +71,7 @@
 	                    <label for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Data fine prevista
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="date_end_prev" name="date_end_prev" class="date-picker form-control col-md-7 col-xs-12" value="{{ $project->date_end_prev }}">
+	                        <input type="text" id="date_end_prev" class="form-control date-period" name="date_end_prev" class="date-picker form-control col-md-7 col-xs-12" value="{{ $project->date_end_prev }}">
 	                    </div>
 	                </div>
 
@@ -79,7 +79,7 @@
 	                    <label for="date" class="control-label col-md-3 col-sm-3 col-xs-12">Data fine effettiva
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="date_end_eff" name="date_end_eff" class="date-picker form-control col-md-7 col-xs-12" value="{{ $project->date_end_eff }}">
+	                        <input type="text" id="date_end_eff" class="form-control date-period" name="date_end_eff" class="date-picker form-control col-md-7 col-xs-12" value="{{ $project->date_end_eff }}">
 	                    </div>
 	                </div>
 	                
@@ -116,6 +116,7 @@
 	    </div>
 	</div>
 </div>
+<script type="text/javascript" src="{{ URL::asset('js/date.js') }}"></script>
 <?php else: ?>
 	<h2>Non hai il permesso per accedere a questa pagina</h2>
 <?php endif; ?>	

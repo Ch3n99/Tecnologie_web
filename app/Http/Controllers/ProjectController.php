@@ -132,7 +132,7 @@ class ProjectController extends Controller
 		return redirect('project');
     }
     
-    public function viewprog(Request $request, Int $id){
+    public function viewprog(Request $request, Int $id){ //funzione per vedere dettagli aggiuntivi di un singolo progetto
 
         $users=User::all();
         $project = Project::find($id);
@@ -170,16 +170,16 @@ class ProjectController extends Controller
         // ore_tot contiene il totale delle ore di lavoro
         $ore_tot = $this->oreTot($users,$id,$d);
         
-        return view('project.prog',compact('project','ass','ore_prog','ore_tot','begin','end'));
+        return view('project.details',compact('project','ass','ore_prog','ore_tot','begin','end'));
 
     }
 
-    private function oreProg($users,$id,$d) //restituisce array contentente ore di lavoro per ciascun utente 
+    private function oreProg($users,$id,$d) //restituisce array contentente ore di lavoro per ciascun utente (su quel progetto) 
 	{
 		$tot_ore = []; //dichiaro array vuoto
         foreach($users as $user)  {
             $prog_ore = 0;
-	        foreach ($d as $diario) {
+	        foreach ($d as $diario) { //scorro tutti i diari relativi al progetto
                 if($diario->id_progetto==$id && $diario->id_user == $user->id) //controllo se progetto è quello giusto e se utente è quello che stiamo esaminando
                     $prog_ore += $diario->tot_ore;
             }

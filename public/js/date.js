@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    //serve per far apparire calendario quando inserisco date
     $('.date-period').daterangepicker({
         singleDatePicker: true,
         calender_style: "picker_4",
@@ -11,7 +12,8 @@ $(document).ready(function () {
     }, function (start, end, label) {
         //console.log(start.toISOString(), end.toISOString(), label);
     });  
-
+    
+    //serve a ripristinare i valori di default se schiaccio la rotella
     $('#period-reset').click(function() {
         var d = new Date();
         var curr_date 	= d.getDate();
@@ -38,15 +40,12 @@ $(document).ready(function () {
         $('#date-period-end').val(end);
     });		
 
+    //serve a ripristinare i valori di default se schiaccio la rotella (nel caso del diario dell'utente)
     $('#reset').click(function() {
 
         var d = new Date();
         var curr_month 	= d.getMonth()+1;
         var curr_year 	= d.getFullYear();
-
-        if (curr_month < 10) {
-            curr_month = "0"+curr_month;
-        }
 
         var begin 	= curr_month;
         var end = curr_year
@@ -54,45 +53,5 @@ $(document).ready(function () {
         $('#month').val(begin);
         $('#year').val(end);
     });	
-    
-    /* Attivo il Datepicker per le date */
-    $('#data').daterangepicker({
-        singleDatePicker: true,
-        calender_style: "picker_4",
-        format: 'YYYY-MM-DD',
-        locale: { 
-            daysOfWeek: [ "Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab" ],
-            monthNames: [ "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" ],
-            firstDay: 1,
-        }
-    }, function (start, end, label) {
-        //console.log(start.toISOString(), end.toISOString(), label);
-    });
-
-    $('#data1').daterangepicker({
-        singleDatePicker: true,
-        calender_style: "picker_4",
-        format: 'YYYY-MM-DD',
-        locale: { 
-            daysOfWeek: [ "Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab" ],
-            monthNames: [ "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" ],
-            firstDay: 1,
-        }
-    }, function (start, end, label) {
-        //console.log(start.toISOString(), end.toISOString(), label);
-    });
-
-    $('#data2').daterangepicker({
-        singleDatePicker: true,
-        calender_style: "picker_4",
-        format: 'YYYY-MM-DD',
-        locale: { 
-            daysOfWeek: [ "Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab" ],
-            monthNames: [ "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" ],
-            firstDay: 1,
-        }
-    }, function (start, end, label) {
-        //console.log(start.toISOString(), end.toISOString(), label);
-    });
     
 });

@@ -17,7 +17,7 @@
 					<input type="text" style="width: 150px" name="date-period-end" id="date-period-end" class="form-control date-period" value="{{ $end->toDateString() }}">
 					<a href="javascript:void(0);" id="period-reset" style="margin-left: 5px; margin-right: 20px; font-size: 18px;"><i class="fa fa-refresh"></i></a>											
 					<button type="submit" style="margin-left: 2px; margin-bottom: 0px;" id="submit-period" class="btn btn-primary">Imposta</button>
-	         </div>
+	        </div>
 		</form>
         <div class="x_panel">
 	        <div class="x_title">
@@ -62,6 +62,7 @@
 						<input type="hidden" id="encoded_ore_prog_list" value="{{ json_encode($ore_prog) }}" />
 						<canvas id="split_pie"></canvas>	        
 		</div>
+	<!-- parte per generare grafico a torta -->
 	<script type="text/javascript">	
 
 	$(document).ready(function() { 	    

@@ -22,7 +22,7 @@
 	            
 	            <br>
 	            
-	            <form method="POST" action="{{ URL::action('UserController@index') }}" id="form" class="form-horizontal form-label-left">
+	            <form id="form" method="POST" action="{{ URL::action('UserController@index') }}" class="form-horizontal form-label-left">
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 					@if ($errors->any())
@@ -93,6 +93,7 @@
 	    </div>
 	</div>
 </div>
+<!-- parte ajax -->
 <script>
 	$('document').ready(function(){
 		$('#insert').click(function(add){

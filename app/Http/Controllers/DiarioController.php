@@ -25,7 +25,7 @@ class DiarioController extends Controller
 
     }
 
-    public function viewdiario(Request $request, Int $id)
+    public function viewdiario(Request $request, Int $id) //funzione per vedere i diari di un utente
     {
 		$month 	= Carbon::now()->month;
 		$year 	= Carbon::now()->year;

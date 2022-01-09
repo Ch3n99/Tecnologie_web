@@ -61,6 +61,7 @@
 						<input type="hidden" id="encoded_ore_cl_list" value="{{ json_encode($ore_cl) }}" />
 						<canvas id="split_pie"></canvas>	        
 		</div>
+		<!-- parte per generare grafico a torta -->
 	<script type="text/javascript">	
 
 	$(document).ready(function() { 	    

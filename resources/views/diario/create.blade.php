@@ -48,7 +48,7 @@
 	                    <label for="data" class="control-label col-md-3 col-sm-3 col-xs-12">Data<span class="required">*</span>
 	                    </label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" name="data" id="data" value="{{ date('Y-m-d') }}" class="date-picker form-control col-md-7 col-xs-12" >	
+						<input type="text" name="data" id="data" value="{{ date('Y-m-d') }}" class="form-control date-period" >	
 	                    </div>
 	                </div>
 
