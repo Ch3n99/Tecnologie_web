@@ -29,7 +29,7 @@
 	        </div>
 
 	        <div class="x_content">	
-	            <table class="table table-striped">  <!-- tabella per visualizzazione progetti -->
+	            <table class="table table-striped">  <!-- tabella per visualizzazione utenti -->
 	                <thead>
 	                    <tr>
 	                        <th>Nome</th>

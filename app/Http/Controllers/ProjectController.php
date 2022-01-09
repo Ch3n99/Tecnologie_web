@@ -28,13 +28,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //$progetti=Project::all();
-        $progetti=DB::table('projects') //ho preso i progetti ancora attivi con la ragione sociale del cliente associato al progetto
+        $progetti=DB::table('projects') //ho preso i progetti ancora attivi (campo di data fine effettiva è nullo) con la ragione sociale del cliente associato al progetto
                   ->select('projects.id','projects.name','projects.description','projects.note','projects.date_start','projects.date_end_prev','projects.date_end_eff','clienti.ragsoc','projects.hour_cost')
                   ->join('clienti','projects.id_cliente','=','clienti.id')
                   ->where('projects.date_end_eff','=',null)
                   ->get();
-        return view('project.index' , compact('progetti')); //restituisco la view e passo variabile alla view tramite funzione compact
+        return view('project.index' , compact('progetti'));
     }
 
     /**
@@ -137,10 +136,11 @@ class ProjectController extends Controller
         $users=User::all();
         $project = Project::find($id);
 
+        // Imposto due date di default: Primo e ultimo gg del mese
         $begin 	= new Carbon('first day of this month');
 		$end 	= new Carbon('last day of this month');
 
-        // Controllo se sono state passate delle date e le prelevo se sono presenti
+        // Controllo se sono state passate delle date e le prelevo se sono presenti (altrimenti uso quelle di default)
 		$input = $request->all();
 
 		if (isset($input['date-period-begin'])) {
@@ -158,28 +158,28 @@ class ProjectController extends Controller
             ->where('projects.id','=',$id)
             ->get();
         
-        $d=DB::table('diari') //ore di lavoro nel periodo selezionato per ciascuna assegnazione
+        $d=DB::table('diari') //ore di lavoro nel periodo selezionato per ciascuna assegnazione (usata nelle funzioni in basso)
             ->select(DB::raw('SUM(num_ore) as tot_ore'),'data','id_asseg','assegnazioni.id_user','assegnazioni.id_progetto')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->whereBetween('data', [$begin, $end])
             ->groupBy('id_asseg')
             ->get();
         
-        // ore_prog è array che contiene le ore di lavoro sul progetto di ogni utente
+        // ore_prog è array che contiene le ore di lavoro sul progetto di ogni utente (vedere funzione oreProg in basso)
 		$ore_prog = $this->oreProg($users,$id,$d);
-        // ore_tot contiene il totale delle ore di lavoro
+        // ore_tot contiene il totale delle ore di lavoro (vedere funzione oreTot in basso)
         $ore_tot = $this->oreTot($users,$id,$d);
         
         return view('project.details',compact('project','ass','ore_prog','ore_tot','begin','end'));
 
     }
 
-    private function oreProg($users,$id,$d) //restituisce array contentente ore di lavoro per ciascun utente (su quel progetto) 
+    private function oreProg($users,$id,$d) //funzione per creare array contenente ore di lavoro del progetto in questione 
 	{
 		$tot_ore = []; //dichiaro array vuoto
         foreach($users as $user)  {
             $prog_ore = 0;
-	        foreach ($d as $diario) { //scorro tutti i diari relativi al progetto
+	        foreach ($d as $diario) {
                 if($diario->id_progetto==$id && $diario->id_user == $user->id) //controllo se progetto è quello giusto e se utente è quello che stiamo esaminando
                     $prog_ore += $diario->tot_ore;
             }
@@ -194,7 +194,7 @@ class ProjectController extends Controller
 		return $tot_ore; //restituisco l'array
 	}
 
-    private function oreTot($users,$id,$d) //restituisce totale ore di lavoro
+    private function oreTot($users,$id,$d) //restituisce totale ore di lavoro del progetto in questione
 	{
         $prog_ore = 0;
         foreach($users as $user)  {
@@ -203,6 +203,6 @@ class ProjectController extends Controller
                     $prog_ore += $diario->tot_ore;
             }
         }			                	
-		return $prog_ore;
+		return $prog_ore; //restituisco il totale
 	}
 }

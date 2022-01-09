@@ -37,7 +37,7 @@
 		                </div>
 					@endif
 
-					@if (session('success'))															<!-- messaggio OK -->
+					@if (session('success'))															
 						<div class="alert alert-create alert-success alert-dismissible fade in" role="alert">
 		                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 							<p>{{ session('success') }}</p>
@@ -47,7 +47,7 @@
                     <div class="form-group">
 	                    <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Nome<span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12"> <!-- il campo name va mantenuto uguale alla rispettiva colonna della tabella -->
+	                        <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12">
 	                    </div>
 	                </div>
 
@@ -95,7 +95,7 @@
                             <select class="form-control" name="id_cliente">
 								<option value="none" selected disabled hidden></option>
 								@foreach ($clienti as $i)									<!-- per ciascun cliente genero opzione menù a tendina -->
-	                                <option value="{{ $i->id }}">{{ $i->ragsoc }}</option>  <!-- salvo l'id ma mostro il nome -->
+	                                <option value="{{ $i->id }}">{{ $i->ragsoc }}</option>  <!-- salvo l'id per chiave esterna ma mostro la ragione sociale -->
 								@endforeach
                             </select>
                         </div>
@@ -111,7 +111,7 @@
 	                <div class="ln_solid"></div>
 	                <div class="form-group">
 	                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-	                        <button type="submit" id="insert" class="btn btn-primary">Aggiungi</button>  <!-- bottone di conferma -->
+	                        <button type="submit" id="insert" class="btn btn-primary">Aggiungi</button>
 	                    </div>
 	                </div>
 	            </form>

@@ -36,6 +36,7 @@ Route::resource('user', 'UserController', ['except' => ['destroy']]);
 Route::resource('cliente', 'ClienteController', ['except' => ['destroy']]);
 Route::resource('project', 'ProjectController', ['except' => ['destroy']]);
 Route::resource('assegnazione', 'AssegnazioneController', ['except' => ['destroy']]);
+//gestione delle destroy col metodo get
 Route::get('user/{id}/destroy', 'UserController@destroy');
 Route::get('assegnazione/{id}/destroy', 'AssegnazioneController@destroy');
 Route::get('cliente/{id}/destroy', 'ClienteController@destroy');

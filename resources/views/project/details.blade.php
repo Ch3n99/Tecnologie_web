@@ -10,6 +10,7 @@
 	    <a href="{{ URL::action('AssegnazioneController@createass', $project->id) }}">Assegna un nuovo utente a questo progetto</a>
     </div>
     <?php else: ?>
+		<!-- form per inserimento date -->
 		<form id="form-period" method="get" action="{{ URL::action('ProjectController@viewprog', $project->id) }}" class="form-horizontal form-label-left">
 	        <div class="input-prepend input-group">
                 <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
@@ -31,7 +32,7 @@
 	        </div>
 
 	        <div class="x_content">	
-	            <table class="table table-striped">  <!-- tabella per visualizzazione utenti assegnati al progetto con numero ore di lavoro -->
+	            <table class="table table-striped">  <!-- tabella per visualizzazione utenti con numero ore di lavoro sul progetto -->
 	                <thead>
 	                    <tr>
 	                        <th>Nome</th>
@@ -58,6 +59,7 @@
 	            </table>
 	        </div>
 	    </div>
+		<!-- area del grafico a torta -->
 		<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="hidden" id="encoded_ore_prog_list" value="{{ json_encode($ore_prog) }}" />
 						<canvas id="split_pie"></canvas>	        

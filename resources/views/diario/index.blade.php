@@ -1,8 +1,8 @@
 @extends('app')
 
 @section('content')
-<?php if ((Auth::user()->ruolo=="Admin") || (Auth::user()->id==$user->id)): ?>
 <?php
+//array per elencare mesi
 $mesi=array(
     1 => "Gennaio",
     2 => "Febbraio",
@@ -18,6 +18,9 @@ $mesi=array(
 	12 => "Dicembre"
 );
 ?>
+
+<?php if ((Auth::user()->ruolo=="Admin") || (Auth::user()->id==$user->id)): ?>
+<!-- il diario è visualizzabile dall'admin o se l'utente in questione coincide con quello loggato -->
 <div class="page-title">
 	<div class="title_left"></div>
 </div>
@@ -46,7 +49,7 @@ $mesi=array(
 	            
                 
 			<div class="x_content">
-                <table class="table table-striped">
+                <table class="table table-striped">  <!-- tabella per mostrare elenco progetti a cui l'utente è assegnato -->
 	                <thead>
 	                    <tr>
                             <th>Nome progetto</th>
@@ -72,10 +75,11 @@ $mesi=array(
 			</div>
 	        </div>
 			</br></br>
+			<!-- form per inserimento mese e anno di cui si vuole visualizzare il diario -->
 			<form id="form-period" method="get" action="{{ URL::action('DiarioController@viewdiario', $user->id) }}" class="form-horizontal form-label-left">
 	                                <div class="input-prepend input-group">
 									<div class="col-md-4 col-sm-4 col-xs-12">
-									<select class="form-control" id="month" name="mese">
+									<select class="form-control" id="month" name="mese"> <!-- menù a tendina per vedere i mesi -->
 									<?php
 										for ($i = 1; $i <= 12; $i++) {
 											if($i==$month)
@@ -87,7 +91,7 @@ $mesi=array(
                             	    </select>
 								    </div>
 								    <div class="col-md-3 col-sm-3 col-xs-12">
-								    <select class="form-control" id="year" name="anno">
+								    <select class="form-control" id="year" name="anno"> <!-- menù a tendina per vedere gli anni -->
 								    <?php
 								    for ($i = 2015; $i <= 2065; $i++) {
 									    if($i==$year)
@@ -120,7 +124,7 @@ $mesi=array(
 	            <h2>Diario mensile</h2>
                 
 	            <ul class="nav navbar-right panel_toolbox">
-					<?php if(Auth::user()->id==$user->id): ?>
+					<?php if(Auth::user()->id==$user->id): ?> <!-- gli inserimenti nel diario possono essere fatti solo dall'utente in questione -->
 					<li><a class="add-link" href="{{ URL::action('DiarioController@create') }}"><i class="fa fa-plus"></i></a></li>
 					<?php endif; ?>
 	                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -128,7 +132,7 @@ $mesi=array(
 				<div class="clearfix"></div>
 	        </div>
 			<div class="x_content">
-                <table class="table table-striped">
+                <table class="table table-striped"> <!-- tabella per mostrare diario mensile dell'utente -->
 	                <thead>
 	                    <tr>
                             <th>Data</th>
@@ -146,7 +150,7 @@ $mesi=array(
                                 <td>{{ $i->name }}</td>
 								<td>{{ $i->num_ore }} h</td>
 								<td>
-								<?php if(Auth::user()->id==$user->id): ?>	
+								<?php if(Auth::user()->id==$user->id): ?> <!-- modifiche e cancellazioni possono essere fatti solo dall'utente in questione -->
 									<a href="{{ URL::action('DiarioController@edit', $i->id) }}" class="action-link fa fa-pencil"></a>																
 									<a href="{{ URL::action('DiarioController@destroy', $i->id) }}" class="action-link link-danger del-link fa fa-close"></a>
 								<?php endif; ?>

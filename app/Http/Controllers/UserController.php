@@ -47,7 +47,7 @@ class UserController extends Controller
 		]);
 
 		$input = $request->all();
-		$input['password'] = bcrypt($input['password']);
+		$input['password'] = bcrypt($input['password']); //critto la password
 
 		$newUser = User::create($input);
 		
@@ -124,7 +124,7 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {			 	
-		try {
+		try { //l'utente di base (Mario Rossi) non può essere eliminato
 			$user = User::find($id);
 			$user->delete();
 		

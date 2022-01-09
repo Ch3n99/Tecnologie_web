@@ -30,7 +30,7 @@ class DiarioController extends Controller
 		$month 	= Carbon::now()->month;
 		$year 	= Carbon::now()->year;
 
-		// Controllo se sono state passate delle date e le prelevo se sono presenti
+		// Controllo se sono state passate delle date (in questo caso mese e anno) e le prelevo se sono presenti (altrimenti uso quelle di default)
 		$input = $request->all();
 
 		if (isset($input['mese'])) {
@@ -48,7 +48,7 @@ class DiarioController extends Controller
             ->where('assegnazioni.id_user','=',$id)
             ->get();
 
-        $diari = DB::table('diari') //stampa elenco attività dell'utente con nome progetto di riferimento
+        $diari = DB::table('diari') //stampa elenco attività dell'utente con nome progetto di riferimento (usata nella funzione getTot in basso)
             ->select('diari.id','diari.data','projects.name','diari.num_ore','diari.note')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
@@ -59,7 +59,7 @@ class DiarioController extends Controller
             ->get();
 
         $user = User::find($id);
-        $tot = $this->getTot($diari);
+        $tot = $this->getTot($diari); //salvo in $tot il totale delle ore di lavoro dell'utente (vedere funzione getTot in basso)
         return view('diario.index',compact('user','diari','month','year','progetti','tot'));
     }
 
@@ -120,7 +120,7 @@ class DiarioController extends Controller
     {
         $d=Diario::find($id);
 
-		$asseg=DB::table('assegnazioni')
+		$asseg=DB::table('assegnazioni') //questa query elenca solo i progetti ai quali l'utente è stato assegnato
             ->select('assegnazioni.id','assegnazioni.id_progetto','projects.name','assegnazioni.id_user')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
             ->where('assegnazioni.id_user','=', Auth::user()->id)
@@ -164,12 +164,12 @@ class DiarioController extends Controller
 		return back();
     }
 
-    private function getTot($diari)
+    private function getTot($diari) //questa funzione calcola totale ore di lavoro dell'utente
     {
         $tot_ore = 0;
         foreach($diari as $i)
             $tot_ore += $i->num_ore;	                	
-		return $tot_ore;
+		return $tot_ore; //restituisco il totale
     }
 
 }

@@ -56,7 +56,7 @@ class AssegnazioneController extends Controller
         $assegnazioni=Assegnazione::all();
 		$input = $request->all();
         $test = 1;
-        foreach($assegnazioni as $a){ //controllo se l'assegnazione esiste già
+        foreach($assegnazioni as $a){ //controllo se l'assegnazione esiste già, in caso apparirà errore in rosso nella view
             if($input['id_user']==$a->id_user && $input['id_progetto']==$a->id_progetto)
             {
                 $test = 0;

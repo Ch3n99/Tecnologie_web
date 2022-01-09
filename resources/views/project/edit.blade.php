@@ -22,11 +22,11 @@
 	            
 	            <br>
 	            
-	            <form method="POST" action="{{ URL::action('ProjectController@update', $project->id) }}" class="form-horizontal form-label-left"> <!-- pagina di creazione quindi form -->
+	            <form method="POST" action="{{ URL::action('ProjectController@update', $project->id) }}" class="form-horizontal form-label-left">
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                     <input type="hidden" name="_method" value="PUT">
 
-					@if ($errors->any()) 																	<!-- messaggio per mostra errori -->
+					@if ($errors->any()) 																
 						<div class="alert alert-create alert-danger alert-dismissible fade in" role="alert">
 		                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 							<p>Non posso aggiungere il progetto perchè:</p>
@@ -41,7 +41,7 @@
                     <div class="form-group">
 	                    <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Nome<span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-	                        <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12" value="{{ $project->name }}"> <!-- il campo name va mantenuto uguale alla rispettiva colonna della tabella -->
+	                        <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12" value="{{ $project->name }}">
 	                    </div>
 	                </div>
 
@@ -87,9 +87,9 @@
 	                    <label for="cliente" class="control-label col-md-3 col-sm-3 col-xs-12">Ragione sociale cliente<span class="required">*</span></label>	                    
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" name="id_cliente">
-								@foreach ($clienti as $i)									<!-- per ciascun cliente genero opzione menù a tendina -->
+								@foreach ($clienti as $i)			<!-- per ciascun cliente genero opzione menù a tendina selezionando come valore di default il cliente attuale -->
                                 @if ($project->id_cliente == $i->id) 
-		                                <option selected="selected" value="{{ $i->id }}">{{ $i->ragsoc }}</option>
+		                                <option selected="selected" value="{{ $i->id }}">{{ $i->ragsoc }}</option> <!-- salvo l'id per chiave esterna ma mostro la ragione sociale -->
 		                            @else
 										<option value="{{ $i->id }}">{{ $i->ragsoc }}</option>
 								@endif
@@ -108,7 +108,7 @@
 	                <div class="ln_solid"></div>
 	                <div class="form-group">
 	                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-	                        <button type="submit" class="btn btn-primary">Aggiorna</button>  <!-- bottone di conferma -->
+	                        <button type="submit" class="btn btn-primary">Aggiorna</button>
 	                    </div>
 	                </div>
 	            </form>

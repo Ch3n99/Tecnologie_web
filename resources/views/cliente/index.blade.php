@@ -23,7 +23,7 @@
 	        </div>
 
 	        <div class="x_content">	
-	            <table class="table table-striped">
+	            <table class="table table-striped"> <!-- tabella per visualizzazione clienti -->
 	                <thead>
 	                    <tr>
                             <th>Ragione sociale</th>                         

@@ -10,10 +10,9 @@ $(document).ready(function () {
             firstDay: 1,
         }
     }, function (start, end, label) {
-        //console.log(start.toISOString(), end.toISOString(), label);
     });  
     
-    //serve a ripristinare i valori di default se schiaccio la rotella
+    //serve a ripristinare i valori di default se schiaccio la rotella (nel caso di dettagli progetti e clienti)
     $('#period-reset').click(function() {
         var d = new Date();
         var curr_date 	= d.getDate();

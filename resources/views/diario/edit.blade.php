@@ -65,7 +65,7 @@
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" name="id_asseg">
 								<option value="none" selected disabled hidden></option>
-								@foreach ($asseg as $a)
+								@foreach ($asseg as $a) 	<!-- i progetti elencati nel menù a tendina sono quelli a cui l'utente è assegnato, mettendo di default quello attuale --> -->
                                     @if ($d->id_asseg == $a->id) 
 		                                <option selected="selected" value="{{ $a->id }}">{{ $a->name }}</option>
 		                            @else

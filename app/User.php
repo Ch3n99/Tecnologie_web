@@ -5,16 +5,12 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+//descrive la struttura della tabella presente nel db
 class User extends Authenticatable
 {    
     use Notifiable;
  
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    //elenco campi
     protected $fillable = [
         'name', 
         'surname', 
@@ -23,27 +19,15 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 	
-    /**
-     * Imposto l'associazione 1:N con le spese.
-     */
+    //qui vengono riportati i collegamenti con le altre tabelle, sia lato 1 che lato N
 	public function assegnazioni() {	
 		return $this->hasMany('App\Assegnazione');
 	}

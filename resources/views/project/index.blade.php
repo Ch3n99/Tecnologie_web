@@ -1,4 +1,4 @@
-@extends('app') <!--serve a richiamare la parte fissa dell'applicazione come la barra laterale -->
+@extends('app')
 
 @section('content')
 <?php if (Auth::user()->ruolo=="Admin"): ?>
@@ -70,6 +70,7 @@
 </div>
 <?php endif; ?>
 <?php else: ?>
+	<!-- essendo la pagina principale, se a loggarsi è un utente semplice gli mostro un link per accedere al proprio diario -->
 	<h1>Benvenuto {{Auth::user()->name}} {{Auth::user()->surname}}</h1>
 	<h2>Clicca <a href="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}" class="link">qui</a> per vedere il tuo diario</h2>		
 <?php endif; ?>

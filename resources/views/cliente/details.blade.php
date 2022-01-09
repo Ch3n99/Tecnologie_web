@@ -10,6 +10,7 @@
 	    <a href="{{ URL::action('ProjectController@create') }}">Assegna un nuovo utente a questo progetto</a>
     </div>
     <?php else: ?>
+		<!-- form per inserimento date -->
 		<form id="form-period" method="get" action="{{ URL::action('ClienteController@viewcliente', $cliente->id) }}" class="form-horizontal form-label-left">
 	        <div class="input-prepend input-group">
                 <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>

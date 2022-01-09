@@ -54,7 +54,7 @@
 	                <div class="form-group">
 	                    <label for="ruolo" class="control-label col-md-3 col-sm-3 col-xs-12">Ruolo <span class="required">*</span></label>
 	                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select class="form-control" name="ruolo">
+                        <select class="form-control" name="ruolo"> <!-- menù a tendina per scelta ruolo admin o semplice -->
 									<option value="none" selected disabled hidden></option>
 	                                <option value="Admin">Admin</option>
 									<option value="Semplice">Semplice</option>

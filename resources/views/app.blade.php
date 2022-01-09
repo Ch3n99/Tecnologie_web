@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<!-- view con link ai fogli di stile (bootstrap, gentelella...) e per parti comuni dell'applicazione (barra laterale e superiore) -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
 	    <!-- Bootstrap core CSS -->    
@@ -37,7 +37,7 @@
             <div class="main_container">
             	<div class="col-md-3 left_col">
 					<div class="navbar nav_title" style="border: 2;">
-                        <a href="{{ route('home') }}" class="site_title"><img src="{{ URL::asset('images/a.webp') }}" id="logo" /> <span>Count On Us</span></a>
+                        <a href="{{ route('home') }}" class="site_title"><img src="{{ URL::asset('images/a.webp') }}" id="logo" /> <span>Count On Us</span></a> <!-- nome e logo -->
                         <br /> 
                         <!-- sidebar menu -->	
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -46,11 +46,11 @@
                                     <li class="">
 										<a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="">
-										<?php if (Auth::user()->ruolo=="Admin"): ?>											
+										<?php if (Auth::user()->ruolo=="Admin"): ?>	<!-- barra laterale per admin -->										
                                             <li><a href="{{ URL::action('ProjectController@index') }}">Progetti</a></li>
 											<li><a href="{{ URL::action('ClienteController@index') }}">Clienti</a></li>
                                             <li><a href="{{ URL::action('UserController@index') }}">Utenti</a></li>
-										<?php else: ?>
+										<?php else: ?> <!-- barra laterale per utente semplice -->
 											<li><a href="{{ URL::action('DiarioController@viewdiario', Auth::user()->id) }}">Diario</a></li>
 											<li><a href="{{ URL::action('DiarioController@create') }}">Inserisci scheda ore</a></li>
 										<?php endif; ?>										

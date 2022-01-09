@@ -118,7 +118,7 @@ class ClienteController extends Controller
 		$begin 	= new Carbon('first day of this month');
 		$end 	= new Carbon('last day of this month');
 
-		// Controllo se sono state passate delle date e le prelevo se sono presenti
+		// Controllo se sono state passate delle date e le prelevo se sono presenti (altrimenti uso quelle di default)
 		$input = $request->all();
 
 		if (isset($input['date-period-begin'])) {
@@ -129,7 +129,7 @@ class ClienteController extends Controller
 			$end = Carbon::createFromFormat('Y-m-d', $input['date-period-end']);
 		}
 
-        $d=DB::table('diari') //ore di lavoro nel periodo selezionato per ciascuna assegnazione
+        $d=DB::table('diari') //ore di lavoro nel periodo selezionato per ciascuna assegnazione (usata nelle funzioni in basso)
             ->select(DB::raw('SUM(num_ore) as tot_ore'),'data','id_asseg','assegnazioni.id_user','assegnazioni.id_progetto')
             ->join('assegnazioni','assegnazioni.id','=','diari.id_asseg')
             ->whereBetween('data', [$begin, $end])
@@ -139,22 +139,22 @@ class ClienteController extends Controller
         $cliente=Cliente::find($id);
         $users=User::all();
 
-        // ore_cl è array che contiene le ore di lavoro verso un cliente di ogni utente
+        // ore_cl è array che contiene le ore di lavoro verso un cliente di ogni utente (vedere funzione oreCl in basso)
 		$ore_cl = $this->oreCl($users,$projects,$d);
-        // ore_tot contiene il totale delle ore di lavoro
+        // ore_tot contiene il totale delle ore di lavoro (vedere funzione oreTot in basso)
         $ore_tot = $this->oreTot($users,$projects,$d);
 
         return view('cliente.details',compact('projects','begin','end','ore_cl','ore_tot','cliente'));
     }
 
-    private function oreCl($users,$projects,$d) 
+    private function oreCl($users,$projects,$d) //funzione per creare array contenente ore di lavoro del cliente in questione
 	{
-		$tot_ore = [];
+		$tot_ore = []; //dichiaro array vuoto
         foreach($users as $user){
             $cl_ore = 0;
-            foreach($projects as $project)  { //scorro i progetti del cliente in questione
+            foreach($projects as $project)  {
 	            foreach ($d as $diario) {
-                    if($diario->id_progetto==$project->id && $diario->id_user == $user->id)
+                    if($diario->id_progetto==$project->id && $diario->id_user == $user->id) //controllo se progetto è quello giusto e se utente è quello che stiamo esaminando
                         $cl_ore += $diario->tot_ore;
                 }  
             }
@@ -162,13 +162,13 @@ class ClienteController extends Controller
                 $new = ["cognome_utente" => $user->surname,
                 "nome_utente" => $user->name,
                 "tot" => $cl_ore];
-                array_push($tot_ore, $new);
+                array_push($tot_ore, $new); //inserisco elemento appena trovato nell'array
             }
         }				                	
-		return $tot_ore;
+		return $tot_ore; //restituisco l'array
 	}
 
-    private function oreTot($users,$projects,$d) 
+    private function oreTot($users,$projects,$d) //funzione per calcolare totale ore di lavoro del cliente in questione
 	{
         $cl_ore=0;
         foreach($users as $user){
@@ -179,6 +179,6 @@ class ClienteController extends Controller
                 }  
             }
         }				                	
-		return $cl_ore;
+		return $cl_ore; //restituisco il totale
 	}
 }
