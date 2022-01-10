@@ -46,8 +46,8 @@ $(document).ready(function () {
         var curr_month 	= d.getMonth()+1;
         var curr_year 	= d.getFullYear();
 
-        var begin 	= curr_month;
-        var end = curr_year
+        var begin = curr_month;
+        var end = curr_year;
 
         $('#month').val(begin);
         $('#year').val(end);

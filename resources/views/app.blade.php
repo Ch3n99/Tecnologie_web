@@ -4,10 +4,7 @@
     <head>
 	    <!-- Bootstrap core CSS -->    
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		
-		<!-- Bootstrap Colorpicker -->
-    	<link href="{{ URL::asset('vendor/css/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
-
+	
 		<!-- Custom styling plus plugins -->
 	    <link rel="stylesheet" href="{{ URL::asset('vendor/css/animate.min.css') }}">
 		<link rel="stylesheet" href="{{ URL::asset('vendor/css/icheck/flat/green.css') }}">

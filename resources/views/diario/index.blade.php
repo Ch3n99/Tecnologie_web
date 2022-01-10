@@ -66,7 +66,9 @@ $mesi=array(
 								<td>{{ $i->description }}</td>
 								<td>{{ $i->ragsoc }}</td>
                                 <td>{{ $i->hour_cost }} €</td>
+								<?php if(Auth::user()->ruolo=="Admin"): ?> <!-- l'eliminazione di un'assegnazione può essere fatta solo dall'admin -->
 								<td><a href="{{ URL::action('AssegnazioneController@destroy', $i->id) }}" class="action-link link-danger del-link fa fa-close"></a> </td>
+								<?php endif; ?>
 							</tr>
 						@endforeach	
 	                </tbody>
