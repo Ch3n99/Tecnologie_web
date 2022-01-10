@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
-//includo i model di cui ho bisogno per interfacciarmi al db
 use App\Project;
 use App\Assegnazione;
 use App\Diario;
@@ -43,7 +42,7 @@ class ProjectController extends Controller
      */
     public function create() //rimanda al form di creazione di un progetto
     {
-        $clienti=Cliente::all(); //serve per menù a tendina nella view
+        $clienti=Cliente::all(); //serve per menù a tendina nella view dove mostro tutti i clienti
         return view('project.create',compact('clienti'));
     }
 
@@ -151,7 +150,7 @@ class ProjectController extends Controller
 			$end = Carbon::createFromFormat('Y-m-d', $input['date-period-end']);
 		}
 
-        $ass=DB::table('assegnazioni') //numero assegnazioni per ciascun progetto
+        $ass=DB::table('assegnazioni') //elenco assegnazioni per il progetto in questione
             ->select('assegnazioni.id','users.surname','users.name')
             ->join('projects','projects.id','=','assegnazioni.id_progetto')
             ->join('users','users.id','=','assegnazioni.id_user')
@@ -181,7 +180,7 @@ class ProjectController extends Controller
             $prog_ore = 0;
 	        foreach ($d as $diario) {
                 if($diario->id_progetto==$id && $diario->id_user == $user->id) //controllo se progetto è quello giusto e se utente è quello che stiamo esaminando
-                    $prog_ore += $diario->tot_ore;
+                    $prog_ore += $diario->tot_ore; //aggiorno somma ore
             }
             if($prog_ore>0)
             {
@@ -200,7 +199,7 @@ class ProjectController extends Controller
         foreach($users as $user)  {
 	        foreach ($d as $diario) {
                 if($diario->id_progetto==$id && $diario->id_user == $user->id)
-                    $prog_ore += $diario->tot_ore;
+                    $prog_ore += $diario->tot_ore; //aggiorno somma ore
             }
         }			                	
 		return $prog_ore; //restituisco il totale

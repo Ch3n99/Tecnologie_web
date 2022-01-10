@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 
 class DiarioController extends Controller
 {
+    //l'utente può accedere dopo il login
+    public function __construct() 
+	{
+		$this->middleware('auth');	
+	}
     /**
      * Display a listing of the resource.
      *
@@ -168,7 +173,7 @@ class DiarioController extends Controller
     {
         $tot_ore = 0;
         foreach($diari as $i)
-            $tot_ore += $i->num_ore;	                	
+            $tot_ore += $i->num_ore; //aggiorno somma ore	                	
 		return $tot_ore; //restituisco il totale
     }
 

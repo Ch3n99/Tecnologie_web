@@ -8,6 +8,11 @@ use App\User;
 
 class UserController extends Controller
 {
+    //l'utente può accedere dopo il login
+    public function __construct() 
+	{
+		$this->middleware('auth');	
+	}
     /**
      * Display a listing of the resource.
      *
@@ -122,7 +127,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Int $id)
     {			 	
 		try { //l'utente di base (Mario Rossi) non può essere eliminato
 			$user = User::find($id);

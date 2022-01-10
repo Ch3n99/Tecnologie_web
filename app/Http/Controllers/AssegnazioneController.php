@@ -14,6 +14,11 @@ use Auth;
 
 class AssegnazioneController extends Controller
 {
+    //l'utente può accedere dopo il login
+    public function __construct() 
+	{
+		$this->middleware('auth');	
+	}
     /**
      * Display a listing of the resource.
      *

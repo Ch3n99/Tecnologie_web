@@ -1,4 +1,4 @@
-<!doctype html> <!-- view per barre laterali e superiori della pagina di login -->
+<!doctype html> <!-- view per barra superiore della pagina di login -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">

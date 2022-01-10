@@ -15,6 +15,11 @@ use Auth;
 
 class ClienteController extends Controller
 {
+    //l'utente può accedere dopo il login
+    public function __construct() 
+	{
+		$this->middleware('auth');	
+	}
     /**
      * Display a listing of the resource.
      *
@@ -155,7 +160,7 @@ class ClienteController extends Controller
             foreach($projects as $project)  {
 	            foreach ($d as $diario) {
                     if($diario->id_progetto==$project->id && $diario->id_user == $user->id) //controllo se progetto è quello giusto e se utente è quello che stiamo esaminando
-                        $cl_ore += $diario->tot_ore;
+                        $cl_ore += $diario->tot_ore; //aggiorno somma ore
                 }  
             }
             if($cl_ore>0) {
@@ -175,7 +180,7 @@ class ClienteController extends Controller
             foreach($projects as $project)  {
 	            foreach ($d as $diario) {
                     if($diario->id_progetto==$project->id && $diario->id_user == $user->id)
-                        $cl_ore += $diario->tot_ore;
+                        $cl_ore += $diario->tot_ore; //aggiorno somma ore
                 }  
             }
         }				                	
