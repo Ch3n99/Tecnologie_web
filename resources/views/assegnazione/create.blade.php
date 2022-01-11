@@ -8,7 +8,7 @@
 					<li><a class="" href="{{ URL::action('ProjectController@viewprog', $project->id) }}"><i class="fa fa-close"></i></a></li>	                
 	            </ul>
 </div>
-    <form id="create-form" method="POST" action="{{ URL::action('AssegnazioneController@index') }}" class="form-horizontal form-label-left">
+    <form id="create-form" method="POST" action="{{ URL::action('AssegnazioneController@store') }}" class="form-horizontal form-label-left">
 	    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 				@if ($errors->any()) 
 					<div class="alert alert-create alert-danger alert-dismissible fade in" role="alert">

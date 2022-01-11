@@ -22,7 +22,7 @@
 	            
 	            <br>
 	            
-	            <form id="form" method="POST" action="{{ URL::action('UserController@index') }}" class="form-horizontal form-label-left">
+	            <form id="form" method="POST" action="{{ URL::action('UserController@store') }}" class="form-horizontal form-label-left">
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 					@if ($errors->any())

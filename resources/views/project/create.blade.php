@@ -22,7 +22,7 @@
 	            
 	            <br>
 	            
-	            <form id="form" method="POST" action="{{ URL::action('ProjectController@index') }}" class="form-horizontal form-label-left"> <!-- pagina di creazione quindi form -->
+	            <form id="form" method="POST" action="{{ URL::action('ProjectController@store') }}" class="form-horizontal form-label-left"> <!-- pagina di creazione quindi form -->
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 					@if ($errors->any()) 																	<!-- mostra errori -->

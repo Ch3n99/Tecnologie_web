@@ -22,7 +22,7 @@
 	            
 	            <br>
 	            
-	            <form id="create-form" method="POST" action="{{ URL::action('DiarioController@index') }}" id="form" class="form-horizontal form-label-left">
+	            <form id="create-form" method="POST" action="{{ URL::action('DiarioController@store') }}" id="form" class="form-horizontal form-label-left">
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 					@if ($errors->any())
